@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+:root {
+  --color-bora-dark: oklch(0.14 0.015 45);
+  --color-bora-dark-alt: oklch(0.1 0.015 45);
+  --color-bora-bronze: oklch(0.7 0.1 55);
+  --color-bora-text-dark: oklch(0.18 0.015 45);
+  --color-bora-text-body: oklch(0.48 0.02 45);
+  --color-bora-on-dark: oklch(0.82 0.02 55);
+  --color-bora-light-gray: oklch(0.94 0 0);
+  --color-bora-card-bg: oklch(0.95 0 0);
+  --color-whatsapp: #25d366;
+}
+
+@theme inline {
+  --color-bora-dark: var(--color-bora-dark);
+  --color-bora-dark-alt: var(--color-bora-dark-alt);
+  --color-bora-bronze: var(--color-bora-bronze);
+  --color-bora-text-dark: var(--color-bora-text-dark);
+  --color-bora-text-body: var(--color-bora-text-body);
+  --color-bora-on-dark: var(--color-bora-on-dark);
+  --color-bora-light-gray: var(--color-bora-light-gray);
+  --color-bora-card-bg: var(--color-bora-card-bg);
+  --color-whatsapp: var(--color-whatsapp);
+  --font-sans: var(--font-inter);
+}
+
+body {
+  background: #fff;
+  color: var(--color-bora-text-dark);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@keyframes bora-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-bora-marquee {
+  animation: bora-marquee 22s linear infinite;
+}
