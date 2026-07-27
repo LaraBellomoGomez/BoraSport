@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+body{margin:0;background:#fff;font-family:Inter,system-ui,sans-serif}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+*{box-sizing:border-box}
+</style>
+</helmet>
+
+<div style="position:relative;min-height:100vh;background:#fff">
+
+  <header style="position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 28px;background:oklch(0.14 0.015 45)">
+    <img src="assets/bora-logo-2.png" alt="Bora Sports" style="flex:none;height:48px;width:auto;object-fit:contain;display:block">
+    <nav style="flex:1;display:flex;justify-content:center;gap:22px;font:600 12px Inter;letter-spacing:.02em;text-transform:uppercase;color:oklch(0.82 0.02 55);white-space:nowrap;overflow-x:auto;min-width:0">
+      <a href="./Home.html">Inicio</a>
+      <a href="./Verano.html">Colección Verano 2026</a>
+      <a href="./Mujer.html" style="color:oklch(0.72 0.1 55)">Mujer</a>
+      <a href="./Hombre.html">Hombre</a>
+      <a href="./Accesorios.html">Accesorios</a>
+      <a href="./QuienesSomos.html">Quiénes Somos</a>
+      <a href="./Contacto.html">Contacto</a>
+    </nav>
+    <div style="flex:none;display:flex;align-items:center;gap:20px;font:500 12px Inter;color:oklch(0.82 0.02 55);white-space:nowrap">
+      <span>Buscar</span><span>Carrito</span>
+    </div>
+  </header>
+
+  <div style="max-width:1400px;margin:0 auto;padding:28px 40px 0">
+    <div style="font:400 12px Inter;color:oklch(0.5 0.02 45);margin-bottom:8px">Inicio / Mujer</div>
+    <div style="font:800 32px Inter;letter-spacing:-0.02em;color:oklch(0.18 0.015 45);margin-bottom:24px">Mujer</div>
+
+    <div style="display:flex;gap:36px;border-bottom:1px solid oklch(0.9 0 0);padding-bottom:14px;margin-bottom:22px;flex-wrap:wrap">
+      <button style="{{ tabStyleTodos }}" onClick="{{ setTodos }}">Ver Todo</button>
+      <button style="{{ tabStyleJerseys }}" onClick="{{ setJerseys }}">Jerseys Mujer</button>
+      <button style="{{ tabStyleBermudas }}" onClick="{{ setBermudas }}">Bermudas Mujer</button>
+      <button style="{{ tabStyleColeccion }}" onClick="{{ setColeccion }}">Colección Verano 2026 Mujer</button>
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:28px">
+      <span style="font:600 13px Inter;color:oklch(0.3 0.02 45);display:flex;align-items:center;gap:8px">☰ Mostrar filtros</span>
+      <span style="font:400 12px Inter;color:oklch(0.55 0.02 45)">{{ countLabel }}</span>
+    </div>
+
+    <sc-if value="{{ showJerseysHeader }}" hint-placeholder-val="{{ false }}">
+    <div style="font:700 18px Inter;color:oklch(0.18 0.015 45);margin-bottom:18px">Jerseys Mujer</div>
+    </sc-if>
+    <sc-if value="{{ showBermudasHeader }}" hint-placeholder-val="{{ false }}">
+    <div style="font:700 18px Inter;color:oklch(0.18 0.015 45);margin-bottom:18px">Bermudas Mujer</div>
+    </sc-if>
+    <sc-if value="{{ showColeccionHeader }}" hint-placeholder-val="{{ false }}">
+    <div style="font:700 18px Inter;color:oklch(0.18 0.015 45);margin-bottom:18px">Colección Verano 2026 Mujer</div>
+    </sc-if>
+
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:28px 24px;margin-bottom:64px">
+
+      <sc-if value="{{ showWildLeopard }}" hint-placeholder-val="{{ true }}">
+      <div>
+        <div style="position:relative;aspect-ratio:3/4;background:oklch(0.95 0 0);margin-bottom:12px;overflow:hidden"><image-slot id="muj-j1" shape="rect" placeholder="Jersey Ciclismo Mujer Wild Leopard" src="assets/jersey-wild-leopard.webp"></image-slot>
+          <div style="position:absolute;top:10px;left:10px;background:oklch(0.7 0.1 55);color:oklch(0.14 0.015 45);font:700 11px Inter;padding:4px 9px">32% OFF</div></div>
+        <div style="font:500 14px Inter;color:oklch(0.18 0.015 45);margin-bottom:4px">Jersey de Ciclismo Mujer — Wild Leopard</div>
+        <div style="font:400 13px Inter;margin-bottom:10px"><span style="text-decoration:line-through;color:oklch(0.65 0 0);margin-right:8px">$60.200</span><span style="font:700 14px Inter;color:oklch(0.18 0.015 45)">$40.900</span></div>
+        <div style="display:flex;gap:8px;margin-bottom:10px"><span style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#c9922f,#151515);border:1px solid oklch(0.8 0 0)"></span></div>
+        <div style="display:flex;gap:6px">
+          <span style="border:1px solid oklch(0.8 0 0);padding:5px 10px;font:500 12px Inter;color:oklch(0.3 0.02 45)">S</span>
+          <span style="border:1px solid oklch(0.8 0 0);padding:5px 10px;font:500 12px Inter;color:oklch(0.3 0.02 45)">M</span>
+          <span style="border:1px solid oklch(0.8 0 0);padding:5px 10px;font:500 12px Inter;color:oklch(0.3 0.02 45)">L</span>
+          <span style="border:1px solid oklch(0.8 0 0);padding:5px 10px;font:500 12px Inter;color:oklch(0.3 0.02 45)">XL</span>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ showFenixAreia }}" hint-placeholder-val="{{ true }}">
+      <div>
+        <div style="position:relative;aspect-ratio:3/4;background:oklch(0.95 0 0);margin-bottom:12px;overflow:hidden"><image-slot id="muj-j2" shape="rect" placeholder="Jersey Ciclismo Mujer Fénix Areia" src="assets/jersey-fenix-areia.webp"></image-slot>
+          <div style="position:absolute;top:10px;left:10px;background:oklch(0.7 0.1 55);color:oklch(0.14 0.015 45);font:700 11px Inter;padding:4px 9px">33% OFF</div></div>
+        <div style="font:500 14px Inter;color:oklch(0.18 0.015 45);margin-bottom:4px">Jersey de Ciclismo Mujer — Fénix Areia</div>
+        <div style="font:400 13px Inter;margin-bottom:10px"><span style="text-decoration:line-through;color:oklch(0.65 0 0);margin-right:8px">$52.900</span><span style="font:700 14px Inter;color:oklch(0.18 0.015 45)">$35.600</span></div>
+        <div style="display:flex;gap:8px;margin-bottom:10px"><span style="width:22px;height:22px;border-radius:50%;background:#a89a95;border:1px solid oklch(0.8 0 0)"></span></div>
+        <div style="display:flex;gap:6px">
+          <span style="border:1px solid oklch(0.8 0 0);padding:5px 10px;font:500 12px Inter;color:oklch(0.3 0.02 45)">S</span>
+          <span style="border:1px solid oklch(0.8 0 0);padding:5px 10px;font:500 12px Inter;color:oklch(0.3 0.02 45)">M</span>
+          <span style="border:1px solid oklch(0.8 0 0);padding:5px 10px;font:500 12px Inter;color:oklch(0.3 0.02 45)">L</span>
+          <span style="border:1px solid oklch(0.8 0 0);padding:5px 10px;font:500 12px Inter;color:oklch(0.3 0.02 45)">XL</span>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ showFenixDourada }}" hint-placeholder-val="{{ true }}">
+      <div>
+        <div style="position:relative;aspect-ratio:3/4;background:oklch(0.95 0 0);margin-bottom:12px;overflow:hidden"><image-slot id="muj-j3" shape="rect" placeholder="Jersey Ciclismo Mujer Fénix Dourada" src="assets/jersey-fenix-dourada.webp"></image-slot>
+          <div style="position:absolute;top:10px;left:10px;background:oklch(0.7 0.1 55);color:oklch(0.14 0.015 45);font:700 11px Inter;padding:4px 9px">33% OFF</div></div>
+        <div style="font:500 14px Inter;color:oklch(0.18 0.015 45);margin-bottom:4px">Jersey de Ciclismo Mujer — Fénix Dourada</div>
+        <div style="font:400 13px Inter;margin-bottom:10px"><span style="text-decoration:line-through;color:oklch(0.65 0 0);margin-right:8px">$52.900</span><span style="font:700 14px Inter;color:oklch(0.18 0.015 45)">$35.600</span></div>
+        <div style="display:flex;gap:8px;margin-bottom:10px"><span style="width:22px;height:22px;border-radius:50%;background:#c9922f;border:1px solid oklch(0.8 0 0)"></span></div>
+        <div style="display:flex;gap:6px">
+          <span style="border:1px solid oklch(0.8 0 0);padding:5px 10px;font:500 12px Inter;color:oklch(0.3 0.02 45)">S</span>
+          <span style="border:1px solid oklch(0.8 0 0);padding:5px 10px;font:500 12px Inter;color:oklch(0.3 0.02 45)">M</span>
+          <span style="border:1px solid oklch(0.8 0 0);padding:5px 10px;font:500 12px Inter;color:oklch(0.3 0.02 45)">L</span>
+          <span style="border:1px solid oklch(0.8 0 0);padding:5px 10px;font:500 12px Inter;color:oklch(0.3 0.02 45)">XL</span>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ showTropicalToucan }}" hint-placeholder-val="{{ true }}">
+      <div>
+        <div style="position:relative;aspect-ratio:3/4;background:oklch(0.95 0 0);margin-bottom:12px;overflow:hidden"><image-slot id="muj-j4" shape="rect" placeholder="Jersey Ciclismo Mujer Tropical Toucan" src="assets/jersey-tropical-toucan.webp"></image-slot>
+          <div style="position:absolute;top:10px;left:10px;background:oklch(0.7 0.1 55);color:oklch(0.14 0.015 45);font:700 11px Inter;padding:4px 9px">32% OFF</div></div>
+        <div style="font:500 14px Inter;color:oklch(0.18 0.015 45);margin-bottom:4px">Jersey de Ciclismo Mujer — Tropical Toucan</div>
+        <div style="font:400 13px Inter;margin-bottom:10px"><span style="text-decoration:line-through;color:oklch(0.65 0 0);margin-right:8px">$60.200</span><span style="font:700 14px Inter;color:oklch(0.18 0.015 45)">$40.900</span></div>
+        <div style="display:flex;gap:8px;margin-bottom:10px"><span style="width:22px;height:22px;border-radius:50%;background:#151515;border:1px solid oklch(0.8 0 0)"></span></div>
+        <div style="display:flex;gap:6px">
+          <span style="border:1px solid oklch(0.8 0 0);padding:5px 10px;font:500 12px Inter;color:oklch(0.3 0.02 45)">S</span>
+          <span style="border:1px solid oklch(0.8 0 0);padding:5px 10px;font:500 12px Inter;color:oklch(0.3 0.02 45)">M</span>
+          <span style="border:1px solid oklch(0.8 0 0);padding:5px 10px;font:500 12px Inter;color:oklch(0.3 0.02 45)">L</span>
+          <span style="border:1px solid oklch(0.8 0 0);padding:5px 10px;font:500 12px Inter;color:oklch(0.3 0.02 45)">XL</span>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ showLeoa }}" hint-placeholder-val="{{ true }}">
+      <div>
+        <div style="position:relative;aspect-ratio:3/4;background:oklch(0.95 0 0);margin-bottom:12px;overflow:hidden"><image-slot id="muj-b1" shape="rect" placeholder="Bermuda Ciclismo Mujer Leoa" src="assets/jersey-bermuda-leoa.webp"></image-slot>
+          <div style="position:absolute;top:10px;left:10px;background:oklch(0.7 0.1 55);color:oklch(0.14 0.015 45);font:700 11px Inter;padding:4px 9px">27% OFF</div></div>
+        <div style="font:500 14px Inter;color:oklch(0.18 0.015 45);margin-bottom:4px">Bermuda de Ciclismo Mujer — Leoa</div>
+        <div style="font:400 13px Inter;margin-bottom:10px"><span style="text-decoration:line-through;color:oklch(0.65 0 0);margin-right:8px">$53.600</span><span style="font:700 14px Inter;color:oklch(0.18 0.015 45)">$39.000</span></div>
+        <div style="display:flex;gap:8px;margin-bottom:10px"><span style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#8a6d3b,#3d2f1a);border:1px solid oklch(0.8 0 0)"></span></div>
+        <div style="display:flex;gap:6px">
+          <span style="border:1px solid oklch(0.8 0 0);padding:5px 10px;font:500 12px Inter;color:oklch(0.3 0.02 45)">S</span>
+          <span style="border:1px solid oklch(0.8 0 0);padding:5px 10px;font:500 12px Inter;color:oklch(0.3 0.02 45)">M</span>
+          <span style="border:1px solid oklch(0.8 0 0);padding:5px 10px;font:500 12px Inter;color:oklch(0.3 0.02 45)">L</span>
+          <span style="border:1px solid oklch(0.8 0 0);padding:5px 10px;font:500 12px Inter;color:oklch(0.3 0.02 45)">XL</span>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ showCalzaPreta }}" hint-placeholder-val="{{ true }}">
+      <div>
+        <div style="position:relative;aspect-ratio:3/4;background:oklch(0.95 0 0);margin-bottom:12px;overflow:hidden"><image-slot id="muj-b2" shape="rect" placeholder="Bermuda Ciclismo Mujer Calça Preta" src="assets/bermuda-calca-preta.webp"></image-slot>
+          <div style="position:absolute;top:10px;left:10px;background:oklch(0.7 0.1 55);color:oklch(0.14 0.015 45);font:700 11px Inter;padding:4px 9px">27% OFF</div></div>
+        <div style="font:500 14px Inter;color:oklch(0.18 0.015 45);margin-bottom:4px">Bermuda de Ciclismo Mujer — Calça Preta</div>
+        <div style="font:400 13px Inter;margin-bottom:10px"><span style="text-decoration:line-through;color:oklch(0.65 0 0);margin-right:8px">$53.600</span><span style="font:700 14px Inter;color:oklch(0.18 0.015 45)">$39.000</span></div>
+        <div style="display:flex;gap:8px;margin-bottom:10px"><span style="width:22px;height:22px;border-radius:50%;background:#141414;border:1px solid oklch(0.8 0 0)"></span></div>
+        <div style="display:flex;gap:6px">
+          <span style="border:1px solid oklch(0.8 0 0);padding:5px 10px;font:500 12px Inter;color:oklch(0.3 0.02 45)">S</span>
+          <span style="border:1px solid oklch(0.8 0 0);padding:5px 10px;font:500 12px Inter;color:oklch(0.3 0.02 45)">M</span>
+          <span style="border:1px solid oklch(0.8 0 0);padding:5px 10px;font:500 12px Inter;color:oklch(0.3 0.02 45)">L</span>
+          <span style="border:1px solid oklch(0.8 0 0);padding:5px 10px;font:500 12px Inter;color:oklch(0.3 0.02 45)">XL</span>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ showCalzaArena }}" hint-placeholder-val="{{ true }}">
+      <div>
+        <div style="position:relative;aspect-ratio:3/4;background:oklch(0.95 0 0);margin-bottom:12px;overflow:hidden"><image-slot id="muj-b3" shape="rect" placeholder="Bermuda Ciclismo Mujer Calça Arena" src="assets/bermuda-calca-arena.webp"></image-slot>
+          <div style="position:absolute;top:10px;left:10px;background:oklch(0.7 0.1 55);color:oklch(0.14 0.015 45);font:700 11px Inter;padding:4px 9px">28% OFF</div></div>
+        <div style="font:500 14px Inter;color:oklch(0.18 0.015 45);margin-bottom:4px">Bermuda de Ciclismo Mujer — Calça Arena</div>
+        <div style="font:400 13px Inter;margin-bottom:10px"><span style="text-decoration:line-through;color:oklch(0.65 0 0);margin-right:8px">$54.000</span><span style="font:700 14px Inter;color:oklch(0.18 0.015 45)">$39.000</span></div>
+        <div style="display:flex;gap:8px;margin-bottom:10px"><span style="width:22px;height:22px;border-radius:50%;background:#d9c6a5;border:1px solid oklch(0.8 0 0)"></span></div>
+        <div style="display:flex;gap:6px">
+          <span style="border:1px solid oklch(0.8 0 0);padding:5px 10px;font:500 12px Inter;color:oklch(0.3 0.02 45)">S</span>
+          <span style="border:1px solid oklch(0.8 0 0);padding:5px 10px;font:500 12px Inter;color:oklch(0.3 0.02 45)">M</span>
+          <span style="border:1px solid oklch(0.8 0 0);padding:5px 10px;font:500 12px Inter;color:oklch(0.3 0.02 45)">L</span>
+          <span style="border:1px solid oklch(0.8 0 0);padding:5px 10px;font:500 12px Inter;color:oklch(0.3 0.02 45)">XL</span>
+        </div>
+      </div>
+      </sc-if>
+
+    </div>
+  </div>
+
+  <footer style="background:oklch(0.1 0.015 45);padding:56px 48px 28px">
+    <div style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px;padding-bottom:36px;border-bottom:1px solid oklch(0.24 0.02 45)">
+      <div>
+        <img src="assets/bora-logo-2.png" alt="Bora Sports" style="height:52px;width:auto;object-fit:contain;margin-bottom:14px;display:block">
+        <p style="font:400 13px/1.6 Inter;color:oklch(0.6 0.02 55);max-width:250px">Indumentaria técnica de ciclismo, diseñada para quienes pedalean con actitud.</p>
+      </div>
+      <div>
+        <div style="font:700 12px Inter;letter-spacing:.06em;text-transform:uppercase;color:oklch(0.68 0.1 55);margin-bottom:14px">Colección</div>
+        <div style="display:flex;flex-direction:column;gap:9px;font:400 13px Inter;color:oklch(0.72 0.02 55)">
+          <a href="Bora%20Sports%20-%20Verano.dc.html">Colección Verano 2026</a><a href="#">Hombre</a><a href="#">Mujer</a><a href="#">Accesorios</a>
+        </div>
+      </div>
+      <div>
+        <div style="font:700 12px Inter;letter-spacing:.06em;text-transform:uppercase;color:oklch(0.68 0.1 55);margin-bottom:14px">Contactános</div>
+        <div style="display:flex;flex-direction:column;gap:9px;font:400 13px Inter;color:oklch(0.72 0.02 55)">
+          <span>WhatsApp 5401138990252</span><span>01138990252</span><span>borasportsinfo@gmail.com</span>
+        </div>
+      </div>
+      <div>
+        <div style="font:700 12px Inter;letter-spacing:.06em;text-transform:uppercase;color:oklch(0.68 0.1 55);margin-bottom:14px">Horarios</div>
+        <div style="display:flex;flex-direction:column;gap:9px;font:400 13px Inter;color:oklch(0.72 0.02 55)">
+          <span>Lunes a viernes: 9 a 18 hs</span><span>Sábados: 9 a 13 hs</span>
+        </div>
+      </div>
+    </div>
+    <div style="max-width:1280px;margin:0 auto;padding-top:20px;font:400 11px Inter;color:oklch(0.5 0.02 55)">Copyright Bora Sports · 2026. Todos los derechos reservados.</div>
+  </footer>
+
+  <a href="https://wa.me/5401138990252" style="position:fixed;bottom:26px;right:26px;width:56px;height:56px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,.3);z-index:60">
+    <span style="font:700 20px Inter;color:#fff">W</span>
+  </a>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { tab: 'todos' };
+  renderVals() {
+    const t = this.state.tab;
+    const style = (active) => `font:${active ? 700 : 600} 14px Inter;color:${active ? 'oklch(0.18 0.015 45)' : 'oklch(0.5 0.02 45)'};border:none;background:none;padding:0 0 14px;margin-bottom:-15px;border-bottom:2px solid ${active ? 'oklch(0.7 0.1 55)' : 'transparent'};cursor:pointer`;
+    const counts = { todos: 7, jerseys: 4, bermudas: 3, coleccion: 2 };
+    return {
+      tabStyleTodos: style(t === 'todos'),
+      tabStyleJerseys: style(t === 'jerseys'),
+      tabStyleBermudas: style(t === 'bermudas'),
+      tabStyleColeccion: style(t === 'coleccion'),
+      showJerseysHeader: t === 'jerseys',
+      showBermudasHeader: t === 'bermudas',
+      showColeccionHeader: t === 'coleccion',
+      countLabel: counts[t] + (counts[t] === 1 ? ' producto' : ' productos'),
+      showWildLeopard: t === 'todos' || t === 'jerseys',
+      showFenixDourada: t === 'todos' || t === 'jerseys',
+      showTropicalToucan: t === 'todos' || t === 'jerseys',
+      showFenixAreia: t === 'todos' || t === 'jerseys' || t === 'coleccion',
+      showLeoa: t === 'todos' || t === 'bermudas',
+      showCalzaPreta: t === 'todos' || t === 'bermudas',
+      showCalzaArena: t === 'todos' || t === 'bermudas' || t === 'coleccion',
+      setTodos: () => this.setState({ tab: 'todos' }),
+      setJerseys: () => this.setState({ tab: 'jerseys' }),
+      setBermudas: () => this.setState({ tab: 'bermudas' }),
+      setColeccion: () => this.setState({ tab: 'coleccion' })
+    };
+  }
+}
+</script>
+</body>
+</html>

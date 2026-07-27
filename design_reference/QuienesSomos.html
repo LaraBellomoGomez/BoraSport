@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+body{margin:0;background:#fff;font-family:Inter,system-ui,sans-serif}
+a{color:inherit;text-decoration:none}
+*{box-sizing:border-box}
+</style>
+</helmet>
+
+<div style="position:relative;min-height:100vh;background:#fff">
+
+  <header style="position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 28px;background:oklch(0.14 0.015 45)">
+    <img src="assets/bora-logo-2.png" alt="Bora Sports" style="flex:none;height:48px;width:auto;object-fit:contain;display:block">
+    <nav style="flex:1;display:flex;justify-content:center;gap:22px;font:600 12px Inter;letter-spacing:.02em;text-transform:uppercase;color:oklch(0.82 0.02 55);white-space:nowrap;overflow-x:auto;min-width:0">
+      <a href="./Home.html" style="flex:none">Inicio</a>
+      <a href="./Verano.html" style="flex:none">Verano 2026</a>
+      <a href="./Mujer.html" style="flex:none">Mujer</a>
+      <a href="./Hombre.html" style="flex:none">Hombre</a>
+      <a href="./Accesorios.html" style="flex:none">Accesorios</a>
+      <a href="#" style="flex:none;color:oklch(0.72 0.1 55)">Quiénes Somos</a>
+      <a href="./Contacto.html" style="flex:none">Contacto</a>
+    </nav>
+    <div style="flex:none;display:flex;align-items:center;gap:20px;font:500 12px Inter;color:oklch(0.82 0.02 55);white-space:nowrap">
+      <span>Buscar</span><span>Carrito</span>
+    </div>
+  </header>
+
+  <section style="padding:96px 48px;display:grid;grid-template-columns:0.9fr 1.1fr;gap:64px;align-items:center;max-width:1280px;margin:0 auto">
+    <div style="position:relative;aspect-ratio:1/1;border-radius:6px;overflow:hidden"><image-slot id="about-img" shape="rect" placeholder="Foto de marca: equipo Bora Sports" src="assets/duo-modelos-2.jpg"></image-slot></div>
+    <div>
+      <div style="font:500 12px Inter;letter-spacing:.12em;text-transform:uppercase;color:oklch(0.6 0.1 55);margin-bottom:16px">Quiénes Somos</div>
+      <div style="font:800 38px/1.1 Inter;letter-spacing:-0.02em;color:oklch(0.18 0.015 45);margin-bottom:22px">No sigas tendencias, créalas.</div>
+      <p style="font:400 16px/1.65 Inter;color:oklch(0.42 0.02 45);max-width:520px;margin-bottom:16px">En Bora Sports creemos en el poder de la pasión y la autenticidad. Nacimos para fusionar el rendimiento deportivo con un estilo propio, con indumentaria que refleja personalidad, energía y determinación en cada pedaleada.</p>
+      <p style="font:400 16px/1.65 Inter;color:oklch(0.42 0.02 45);max-width:520px;margin-bottom:24px">Inspirados en la fuerza de la naturaleza, nuestros diseños capturan la esencia de la velocidad, la resistencia y el instinto: piezas que no solo te acompañan en el camino, sino que cuentan tu historia. Cada producto está pensado para quienes buscan algo más que ropa deportiva — construimos una comunidad donde la actitud, la calidad y el diseño van de la mano.</p>
+      <p style="font:700 17px/1.5 Inter;color:oklch(0.18 0.015 45);max-width:480px;margin-bottom:28px">Sé parte de la evolución con Bora Sports.</p>
+      <a href="https://wa.me/5401138990252?text=Hola%2C%20quiero%20conocer%20m%C3%A1s%20sobre%20Bora%20Sports" style="display:inline-block;padding:15px 30px;background:oklch(0.15 0.02 45);color:#fff;font:700 13px Inter;letter-spacing:.05em;text-transform:uppercase">Conocenos más / Consultas por WhatsApp</a>
+    </div>
+  </section>
+
+  <section style="padding:0 48px 96px;max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+    <div style="position:relative;aspect-ratio:4/5;border-radius:6px;overflow:hidden"><image-slot id="about-2" shape="rect" placeholder="Foto: equipo Bora en entrenamiento" src="assets/duo-modelos-1.jpg"></image-slot></div>
+    <div style="position:relative;aspect-ratio:4/5;border-radius:6px;overflow:hidden"><image-slot id="about-3" shape="rect" placeholder="Foto: detalle producto Bora Sports" src="assets/accion-ciclista.jpg"></image-slot></div>
+    <div style="position:relative;aspect-ratio:4/5;border-radius:6px;overflow:hidden"><image-slot id="about-4" shape="rect" placeholder="Foto: comunidad Bora Sports" src="assets/calza-arena-back.jpg"></image-slot></div>
+  </section>
+
+  <footer id="contacto" style="background:oklch(0.1 0.015 45);padding:56px 48px 28px">
+    <div style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px;padding-bottom:36px;border-bottom:1px solid oklch(0.24 0.02 45)">
+      <div>
+        <img src="assets/bora-logo-2.png" alt="Bora Sports" style="height:52px;width:auto;object-fit:contain;margin-bottom:14px;display:block">
+        <p style="font:400 13px/1.6 Inter;color:oklch(0.6 0.02 55);max-width:250px">Indumentaria técnica de ciclismo, diseñada para quienes pedalean con actitud.</p>
+      </div>
+      <div>
+        <div style="font:700 12px Inter;letter-spacing:.06em;text-transform:uppercase;color:oklch(0.68 0.1 55);margin-bottom:14px">Colección</div>
+        <div style="display:flex;flex-direction:column;gap:9px;font:400 13px Inter;color:oklch(0.72 0.02 55)">
+          <a href="Bora%20Sports%20-%20Verano.dc.html">Colección Verano 2026</a><a href="Bora%20Sports%20-%20Hombre.dc.html">Hombre</a><a href="Bora%20Sports%20-%20Mujer.dc.html">Mujer</a><a href="Bora%20Sports%20-%20Accesorios.dc.html">Accesorios</a>
+        </div>
+      </div>
+      <div>
+        <div style="font:700 12px Inter;letter-spacing:.06em;text-transform:uppercase;color:oklch(0.68 0.1 55);margin-bottom:14px">Contactános</div>
+        <div style="display:flex;flex-direction:column;gap:9px;font:400 13px Inter;color:oklch(0.72 0.02 55)">
+          <a href="https://wa.me/5401138990252">WhatsApp 011 3899 0252</a>
+          <a href="mailto:borasportsinfo@gmail.com">borasportsinfo@gmail.com</a>
+          <a href="https://instagram.com/borasportsar" target="_blank">Instagram: @borasportsar</a>
+          <span>Ubicación: próximamente</span>
+        </div>
+      </div>
+    </div>
+    <div style="max-width:1280px;margin:0 auto;padding-top:20px;font:400 11px Inter;color:oklch(0.5 0.02 55)">Copyright Bora Sports · 2026. Todos los derechos reservados.</div>
+  </footer>
+
+  <a href="https://wa.me/5401138990252" style="position:fixed;bottom:26px;right:26px;width:56px;height:56px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,.3);z-index:60">
+    <span style="font:700 20px Inter;color:#fff">W</span>
+  </a>
+
+</div>
+
+</x-dc>
+</body>
+</html>
