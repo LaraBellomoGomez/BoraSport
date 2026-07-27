@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Search, User, Menu, X } from "lucide-react";
 import { NAV_LINKS } from "@/lib/contact";
+import { assetPath } from "@/lib/basePath";
 
 export default function Header() {
   const pathname = usePathname();
@@ -16,7 +17,7 @@ export default function Header() {
       <div className="flex items-center justify-between gap-4 px-5 py-3">
         <Link href="/" className="flex-none" onClick={() => setOpen(false)}>
           <Image
-            src="/assets/bora-logo-2.png"
+            src={assetPath("/assets/bora-logo-2.png")}
             alt="Bora Sports"
             width={160}
             height={52}

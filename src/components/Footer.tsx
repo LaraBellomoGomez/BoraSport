@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { EMAIL, INSTAGRAM_HANDLE, INSTAGRAM_URL, WHATSAPP_URL } from "@/lib/contact";
+import { assetPath } from "@/lib/basePath";
 
 export default function Footer() {
   return (
@@ -8,7 +9,7 @@ export default function Footer() {
       <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-8 border-b border-white/10 pb-9 sm:grid-cols-3">
         <div>
           <Image
-            src="/assets/bora-logo-2.png"
+            src={assetPath("/assets/bora-logo-2.png")}
             alt="Bora Sports"
             width={160}
             height={52}

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { WHATSAPP_URL } from "@/lib/contact";
+import { assetPath } from "@/lib/basePath";
 
 export const metadata: Metadata = {
   title: "Quiénes Somos — Bora Sports",
@@ -16,7 +17,7 @@ export default function QuienesSomosPage() {
       <section className="mx-auto grid max-w-[1280px] grid-cols-1 items-center gap-10 px-5 py-16 md:grid-cols-[0.9fr_1.1fr] md:gap-16 md:px-10 md:py-24">
         <div className="relative w-full overflow-hidden rounded-md pt-[100%]">
           <Image
-            src="/assets/duo-modelos-2.jpg"
+            src={assetPath("/assets/duo-modelos-2.jpg")}
             alt="Foto de marca: equipo Bora Sports"
             fill
             sizes="(max-width: 768px) 100vw, 45vw"
@@ -64,7 +65,7 @@ export default function QuienesSomosPage() {
         ].map(([src, alt]) => (
           <div key={src} className="relative w-full overflow-hidden rounded-md pt-[125%]">
             <Image
-              src={src}
+              src={assetPath(src)}
               alt={alt}
               fill
               sizes="(max-width: 768px) 100vw, 33vw"

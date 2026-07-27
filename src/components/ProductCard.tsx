@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { formatARS, installmentPrice } from "@/lib/format";
+import { assetPath } from "@/lib/basePath";
 
 interface ProductCardProps {
   name: string;
@@ -40,7 +41,7 @@ export default function ProductCard({
     >
       <div className="relative mb-2.5 w-full overflow-hidden bg-bora-card-bg pt-[133.33%]">
         <Image
-          src={image}
+          src={assetPath(image)}
           alt={name}
           fill
           sizes="(max-width: 768px) 50vw, 25vw"

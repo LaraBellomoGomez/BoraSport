@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
 import { featuredProducts } from "@/lib/products";
 import { INSTAGRAM_HANDLE, INSTAGRAM_URL } from "@/lib/contact";
+import { assetPath } from "@/lib/basePath";
 
 const QUICK_LINKS = [
   { href: "/mujer", label: "Mujer", image: "/assets/jersey-bermuda-leoa.webp" },
@@ -53,7 +54,7 @@ export default function HomePage() {
       <section className="mx-auto max-w-[1400px] px-5 pt-6 md:px-10">
         <div className="relative w-full overflow-hidden pt-[42.86%] md:pt-[38.1%]">
           <Image
-            src="/assets/hero-3.webp"
+            src={assetPath("/assets/hero-3.webp")}
             alt="Colección Verano 2026 Bora Sports"
             fill
             priority
@@ -95,7 +96,7 @@ export default function HomePage() {
             className="group relative w-full overflow-hidden pt-[100%]"
           >
             <Image
-              src={item.image}
+              src={assetPath(item.image)}
               alt={item.label}
               fill
               sizes="(max-width: 768px) 50vw, 25vw"
@@ -160,7 +161,7 @@ export default function HomePage() {
           {INSTAGRAM_IMAGES.map((src, i) => (
             <div key={i} className="relative w-full overflow-hidden pt-[100%]">
               <Image
-                src={src}
+                src={assetPath(src)}
                 alt={`Instagram ${i + 1}`}
                 fill
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
@@ -180,7 +181,7 @@ export default function HomePage() {
             {PAYMENT_LOGOS.map(([file, alt]) => (
               <Image
                 key={file}
-                src={`/assets/${file}`}
+                src={assetPath(`/assets/${file}`)}
                 alt={alt}
                 width={64}
                 height={32}
@@ -192,7 +193,7 @@ export default function HomePage() {
             Medios de envío
           </div>
           <Image
-            src="/assets/envio-correo-argentino.png"
+            src={assetPath("/assets/envio-correo-argentino.png")}
             alt="Correo Argentino"
             width={100}
             height={32}
