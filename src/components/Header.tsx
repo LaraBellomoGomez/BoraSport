@@ -3,14 +3,23 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Search, User, Menu, X } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { Search, User, Menu, X, LogOut } from "lucide-react";
 import { NAV_LINKS } from "@/lib/contact";
 import { assetPath } from "@/lib/basePath";
+import { useAuth } from "@/lib/AuthContext";
 
 export default function Header() {
   const pathname = usePathname();
+  const router = useRouter();
+  const { user, signOut } = useAuth();
   const [open, setOpen] = useState(false);
+
+  async function handleSignOut() {
+    await signOut();
+    setOpen(false);
+    router.push("/");
+  }
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-bora-dark">
@@ -47,10 +56,24 @@ export default function Header() {
             <Search size={15} strokeWidth={2} />
             Buscar
           </span>
-          <span className="flex items-center gap-1.5">
-            <User size={15} strokeWidth={2} />
-            Ingresá
-          </span>
+          {user ? (
+            <>
+              <span className="max-w-[140px] truncate">{user.email}</span>
+              <button
+                type="button"
+                onClick={handleSignOut}
+                className="flex items-center gap-1.5 hover:text-bora-bronze"
+              >
+                <LogOut size={15} strokeWidth={2} />
+                Salir
+              </button>
+            </>
+          ) : (
+            <Link href="/login" className="flex items-center gap-1.5 hover:text-bora-bronze">
+              <User size={15} strokeWidth={2} />
+              Ingresá
+            </Link>
+          )}
         </div>
 
         <button
@@ -86,10 +109,21 @@ export default function Header() {
               <Search size={15} strokeWidth={2} />
               Buscar
             </span>
-            <span className="flex items-center gap-1.5">
-              <User size={15} strokeWidth={2} />
-              Ingresá
-            </span>
+            {user ? (
+              <button type="button" onClick={handleSignOut} className="flex items-center gap-1.5">
+                <LogOut size={15} strokeWidth={2} />
+                Salir ({user.email})
+              </button>
+            ) : (
+              <Link
+                href="/login"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-1.5"
+              >
+                <User size={15} strokeWidth={2} />
+                Ingresá
+              </Link>
+            )}
           </div>
         </div>
       )}
