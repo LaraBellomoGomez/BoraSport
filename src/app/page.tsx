@@ -119,7 +119,7 @@ export default function HomePage() {
 
       <section id="destacados" className="mx-auto max-w-[1400px] px-5 pt-14 pb-4 md:px-10">
         <h2 className="mb-6 text-2xl font-extrabold tracking-tight text-bora-text-dark md:text-[26px]">
-          Nuestros favoritos 🚴
+          Nuestros favoritos
         </h2>
         <div className="grid grid-cols-2 gap-5 md:grid-cols-4 md:gap-[22px]">
           {featuredProducts.map((product) => (
