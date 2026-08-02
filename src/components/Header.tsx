@@ -4,15 +4,17 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Search, User, Menu, X, LogOut } from "lucide-react";
+import { Search, User, Menu, X, LogOut, ShoppingBag } from "lucide-react";
 import { NAV_LINKS } from "@/lib/contact";
 import { assetPath } from "@/lib/basePath";
 import { useAuth } from "@/lib/AuthContext";
+import { useCart } from "@/lib/CartContext";
 
 export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const { user, signOut } = useAuth();
+  const { count } = useCart();
   const [open, setOpen] = useState(false);
 
   async function handleSignOut() {
@@ -58,6 +60,13 @@ export default function Header() {
           </span>
           {user ? (
             <>
+              <Link
+                href="/carrito"
+                className="flex items-center gap-1.5 bg-bora-bronze px-3 py-2 font-bold text-bora-dark"
+              >
+                <ShoppingBag size={14} strokeWidth={2.5} />
+                Carrito ({count})
+              </Link>
               <span className="max-w-[140px] truncate">{user.email}</span>
               <button
                 type="button"
@@ -110,10 +119,24 @@ export default function Header() {
               Buscar
             </span>
             {user ? (
-              <button type="button" onClick={handleSignOut} className="flex items-center gap-1.5">
-                <LogOut size={15} strokeWidth={2} />
-                Salir ({user.email})
-              </button>
+              <>
+                <Link
+                  href="/carrito"
+                  onClick={() => setOpen(false)}
+                  className="flex items-center gap-1.5"
+                >
+                  <ShoppingBag size={15} strokeWidth={2} />
+                  Carrito ({count})
+                </Link>
+                <button
+                  type="button"
+                  onClick={handleSignOut}
+                  className="flex items-center gap-1.5"
+                >
+                  <LogOut size={15} strokeWidth={2} />
+                  Salir
+                </button>
+              </>
             ) : (
               <Link
                 href="/login"

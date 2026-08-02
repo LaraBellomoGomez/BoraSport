@@ -239,3 +239,14 @@ export const featuredHomeSlugs = ["wild-leopard", "fenix-preto", "leoa", "selva"
 export const featuredProducts: ApparelProduct[] = featuredHomeSlugs.map(
   (slug) => apparelProducts.find((p) => p.slug === slug)!
 );
+
+export type ProductType = "apparel" | "accessory";
+
+export function findProduct(
+  slug: string,
+  type: ProductType
+): ApparelProduct | AccessoryProduct | undefined {
+  return type === "apparel"
+    ? apparelProducts.find((p) => p.slug === slug)
+    : accessoryProducts.find((p) => p.slug === slug);
+}

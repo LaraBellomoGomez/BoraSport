@@ -23,11 +23,12 @@ export default function LoginPage() {
 
     setLoading(false);
     if (error) {
-      setError(
-        error.message === "Invalid login credentials"
-          ? "Email o contraseña incorrectos."
-          : error.message
-      );
+      const translations: Record<string, string> = {
+        "Invalid login credentials": "Email o contraseña incorrectos.",
+        "Email not confirmed":
+          "Todavía no confirmaste tu email. Revisá tu bandeja de entrada (y spam).",
+      };
+      setError(translations[error.message] ?? error.message);
       return;
     }
     router.push("/");

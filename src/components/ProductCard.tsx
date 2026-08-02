@@ -1,11 +1,19 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { ShoppingBag, Check } from "lucide-react";
 import { formatARS, installmentPrice } from "@/lib/format";
 import { assetPath } from "@/lib/basePath";
+import { useAuth } from "@/lib/AuthContext";
+import { useCart } from "@/lib/CartContext";
+import type { ProductType } from "@/lib/products";
 
 interface ProductCardProps {
+  slug: string;
+  productType: ProductType;
   name: string;
   image: string;
   originalPrice: number;
@@ -20,6 +28,8 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({
+  slug,
+  productType,
   name,
   image,
   originalPrice,
@@ -32,6 +42,36 @@ export default function ProductCard({
   swatch,
   sizes,
 }: ProductCardProps) {
+  const router = useRouter();
+  const { user } = useAuth();
+  const { addToCart } = useCart();
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [status, setStatus] = useState<"idle" | "adding" | "added" | "error">("idle");
+  const [message, setMessage] = useState<string | null>(null);
+
+  async function handleAddToCart() {
+    setMessage(null);
+
+    if (!user) {
+      router.push("/login");
+      return;
+    }
+    if (sizes && !selectedSize) {
+      setMessage("Elegí un talle");
+      return;
+    }
+
+    setStatus("adding");
+    const { error } = await addToCart(slug, productType, selectedSize, 1);
+    if (error) {
+      setStatus("error");
+      setMessage("No se pudo agregar. Probá de nuevo.");
+      return;
+    }
+    setStatus("added");
+    setTimeout(() => setStatus("idle"), 1600);
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 12 }}
@@ -97,17 +137,50 @@ export default function ProductCard({
       )}
 
       {sizes && (
-        <div className="flex gap-1.5">
+        <div className="mb-3 flex gap-1.5">
           {sizes.map((size) => (
-            <span
+            <button
               key={size}
-              className="border border-neutral-300 px-2.5 py-1 text-xs font-medium text-neutral-700"
+              type="button"
+              onClick={() => {
+                setSelectedSize(size);
+                setMessage(null);
+              }}
+              className="cursor-pointer border px-2.5 py-1 text-xs font-medium transition-colors"
+              style={
+                selectedSize === size
+                  ? {
+                      borderColor: "var(--color-bora-bronze)",
+                      background: "var(--color-bora-bronze)",
+                      color: "var(--color-bora-dark)",
+                    }
+                  : { borderColor: "oklch(0.8 0 0)", color: "#404040" }
+              }
             >
               {size}
-            </span>
+            </button>
           ))}
         </div>
       )}
+
+      <button
+        type="button"
+        onClick={handleAddToCart}
+        disabled={status === "adding"}
+        className="flex w-full items-center justify-center gap-1.5 border border-bora-text-dark py-2.5 text-xs font-bold tracking-wide text-bora-text-dark uppercase transition-colors hover:bg-bora-text-dark hover:text-white disabled:opacity-60"
+      >
+        {status === "added" ? (
+          <>
+            <Check size={14} /> Agregado
+          </>
+        ) : (
+          <>
+            <ShoppingBag size={14} />
+            {status === "adding" ? "Agregando…" : "Agregar al carrito"}
+          </>
+        )}
+      </button>
+      {message && <p className="mt-1.5 text-[11px] text-red-600">{message}</p>}
     </motion.div>
   );
 }

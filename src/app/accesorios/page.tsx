@@ -46,6 +46,8 @@ export default function AccesoriosPage() {
           {accessoryProducts.map((product) => (
             <ProductCard
               key={product.slug}
+              slug={product.slug}
+              productType="accessory"
               name={product.name}
               image={product.image}
               originalPrice={product.originalPrice}

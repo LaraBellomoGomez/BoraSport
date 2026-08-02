@@ -109,6 +109,8 @@ export default function GenderListing({ gender, title }: { gender: Gender; title
                 transition={{ duration: 0.2 }}
               >
                 <ProductCard
+                  slug={product.slug}
+                  productType="apparel"
                   name={product.name}
                   image={product.image}
                   originalPrice={product.originalPrice}

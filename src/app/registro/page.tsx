@@ -5,6 +5,7 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { supabase } from "@/lib/supabase";
+import { assetPath } from "@/lib/basePath";
 
 export default function RegistroPage() {
   const [email, setEmail] = useState("");
@@ -28,7 +29,13 @@ export default function RegistroPage() {
     }
 
     setLoading(true);
-    const { error } = await supabase.auth.signUp({ email, password });
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: `${window.location.origin}${assetPath("/")}`,
+      },
+    });
     setLoading(false);
 
     if (error) {

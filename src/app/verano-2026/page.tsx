@@ -39,6 +39,8 @@ export default function VeranoPage() {
           {veranoProducts.map((product) => (
             <ProductCard
               key={product.slug}
+              slug={product.slug}
+              productType="apparel"
               name={`${product.name} (Colección Verano 2026)`}
               image={product.image}
               originalPrice={product.originalPrice}
@@ -46,6 +48,7 @@ export default function VeranoPage() {
               offPercent={product.offPercent}
               badgeStyle="bronze"
               freeShipping="top-dark"
+              sizes={product.sizes}
             />
           ))}
         </div>

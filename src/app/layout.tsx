@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { AuthProvider } from "@/lib/AuthContext";
+import { CartProvider } from "@/lib/CartContext";
 import "./globals.css";
 
 const inter = Inter({
@@ -25,8 +26,10 @@ export default function RootLayout({
     <html lang="es" className={`${inter.variable} h-full antialiased`}>
       <body className="min-h-full font-sans">
         <AuthProvider>
-          {children}
-          <WhatsAppButton />
+          <CartProvider>
+            {children}
+            <WhatsAppButton />
+          </CartProvider>
         </AuthProvider>
       </body>
     </html>

@@ -124,6 +124,8 @@ export default function HomePage() {
           {featuredProducts.map((product) => (
             <ProductCard
               key={product.slug}
+              slug={product.slug}
+              productType="apparel"
               name={product.name}
               image={product.image}
               originalPrice={product.originalPrice}
@@ -132,6 +134,7 @@ export default function HomePage() {
               badgeStyle="dark"
               freeShipping="bottom-white"
               showInstallments
+              sizes={product.sizes}
             />
           ))}
         </div>
