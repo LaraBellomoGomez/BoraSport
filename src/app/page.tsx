@@ -4,6 +4,7 @@ import PromoBar from "@/components/PromoBar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
+import NewsletterForm from "@/components/NewsletterForm";
 import { featuredProducts } from "@/lib/products";
 import { INSTAGRAM_HANDLE, INSTAGRAM_URL } from "@/lib/contact";
 import { assetPath } from "@/lib/basePath";
@@ -118,7 +119,7 @@ export default function HomePage() {
 
       <section id="destacados" className="mx-auto max-w-[1400px] px-5 pt-14 pb-4 md:px-10">
         <h2 className="mb-6 text-2xl font-extrabold tracking-tight text-bora-text-dark md:text-[26px]">
-          ¡Los favoritos de Bora! 🚴
+          Nuestros favoritos 🚴
         </h2>
         <div className="grid grid-cols-2 gap-5 md:grid-cols-4 md:gap-[22px]">
           {featuredProducts.map((product) => (
@@ -212,19 +213,7 @@ export default function HomePage() {
         <h2 className="mb-5 text-2xl font-extrabold text-neutral-50">
           Suscribite y recibí todas las ofertas
         </h2>
-        <form className="mx-auto flex max-w-[420px] overflow-hidden rounded-sm bg-white">
-          <input
-            type="email"
-            placeholder="Tu email"
-            className="flex-1 px-4 py-3.5 text-sm text-neutral-700 outline-none"
-          />
-          <button
-            type="submit"
-            className="bg-bora-bronze px-6 py-3.5 text-[13px] font-bold whitespace-nowrap text-black"
-          >
-            Enviar →
-          </button>
-        </form>
+        <NewsletterForm />
       </section>
 
       <Footer />
