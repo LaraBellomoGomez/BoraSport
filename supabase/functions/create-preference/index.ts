@@ -108,7 +108,12 @@ Deno.serve(async (req) => {
       init_point: preference.sandbox_init_point ?? preference.init_point,
     });
   } catch (err) {
-    return json({ error: err instanceof Error ? err.message : "Error inesperado" }, 500);
+    const message =
+      err instanceof Error
+        ? err.message
+        : (err as { message?: string })?.message ?? JSON.stringify(err);
+    console.error("create-preference error:", err);
+    return json({ error: message }, 500);
   }
 });
 
