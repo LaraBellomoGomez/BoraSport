@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { AuthProvider } from "@/lib/AuthContext";
 import { CartProvider } from "@/lib/CartContext";
+import { FavoritesProvider } from "@/lib/FavoritesContext";
 import "./globals.css";
 
 const inter = Inter({
@@ -27,8 +28,10 @@ export default function RootLayout({
       <body className="min-h-full font-sans">
         <AuthProvider>
           <CartProvider>
-            {children}
-            <WhatsAppButton />
+            <FavoritesProvider>
+              {children}
+              <WhatsAppButton />
+            </FavoritesProvider>
           </CartProvider>
         </AuthProvider>
       </body>

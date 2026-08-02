@@ -4,11 +4,12 @@ import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { ShoppingBag, Check } from "lucide-react";
+import { ShoppingBag, Check, Heart } from "lucide-react";
 import { formatARS, installmentPrice } from "@/lib/format";
 import { assetPath } from "@/lib/basePath";
 import { useAuth } from "@/lib/AuthContext";
 import { useCart } from "@/lib/CartContext";
+import { useFavorites } from "@/lib/FavoritesContext";
 import type { ProductType } from "@/lib/products";
 
 interface ProductCardProps {
@@ -45,9 +46,22 @@ export default function ProductCard({
   const router = useRouter();
   const { user } = useAuth();
   const { addToCart } = useCart();
+  const { isFavorite, toggleFavorite } = useFavorites();
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [status, setStatus] = useState<"idle" | "adding" | "added" | "error">("idle");
   const [message, setMessage] = useState<string | null>(null);
+  const [favLoading, setFavLoading] = useState(false);
+  const favorite = isFavorite(slug);
+
+  async function handleToggleFavorite() {
+    if (!user) {
+      router.push("/login");
+      return;
+    }
+    setFavLoading(true);
+    await toggleFavorite(slug, productType);
+    setFavLoading(false);
+  }
 
   async function handleAddToCart() {
     setMessage(null);
@@ -106,6 +120,19 @@ export default function ProductCard({
             Envío gratis
           </div>
         )}
+        <button
+          type="button"
+          onClick={handleToggleFavorite}
+          disabled={favLoading}
+          aria-label={favorite ? "Quitar de favoritos" : "Agregar a favoritos"}
+          className="absolute top-2.5 right-2.5 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 disabled:opacity-60"
+        >
+          <Heart
+            size={16}
+            color={favorite ? "#e0455c" : "#404040"}
+            fill={favorite ? "#e0455c" : "none"}
+          />
+        </button>
       </div>
 
       <div className="mb-1 text-[13px] font-medium text-bora-text-dark md:text-sm">

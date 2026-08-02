@@ -4,17 +4,19 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Search, User, Menu, X, LogOut, ShoppingBag } from "lucide-react";
+import { Search, User, Menu, X, LogOut, ShoppingBag, Heart } from "lucide-react";
 import { NAV_LINKS } from "@/lib/contact";
 import { assetPath } from "@/lib/basePath";
 import { useAuth } from "@/lib/AuthContext";
 import { useCart } from "@/lib/CartContext";
+import { useFavorites } from "@/lib/FavoritesContext";
 
 export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const { user, signOut } = useAuth();
   const { count } = useCart();
+  const { lines: favoriteLines } = useFavorites();
   const [open, setOpen] = useState(false);
 
   async function handleSignOut() {
@@ -60,6 +62,13 @@ export default function Header() {
           </span>
           {user ? (
             <>
+              <Link
+                href="/favoritos"
+                className="flex items-center gap-1.5 hover:text-bora-bronze"
+              >
+                <Heart size={15} strokeWidth={2} />
+                Favoritos ({favoriteLines.length})
+              </Link>
               <Link
                 href="/carrito"
                 className="flex items-center gap-1.5 bg-bora-bronze px-3 py-2 font-bold text-bora-dark"
@@ -113,13 +122,21 @@ export default function Header() {
               );
             })}
           </nav>
-          <div className="flex items-center gap-6 border-t border-white/10 px-5 py-4 text-xs font-medium text-bora-on-dark">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-white/10 px-5 py-4 text-xs font-medium text-bora-on-dark">
             <span className="flex items-center gap-1.5">
               <Search size={15} strokeWidth={2} />
               Buscar
             </span>
             {user ? (
               <>
+                <Link
+                  href="/favoritos"
+                  onClick={() => setOpen(false)}
+                  className="flex items-center gap-1.5"
+                >
+                  <Heart size={15} strokeWidth={2} />
+                  Favoritos ({favoriteLines.length})
+                </Link>
                 <Link
                   href="/carrito"
                   onClick={() => setOpen(false)}
