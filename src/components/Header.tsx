@@ -56,10 +56,10 @@ export default function Header() {
         </nav>
 
         <div className="hidden flex-none items-center gap-4 text-[11px] font-medium text-bora-on-dark md:flex">
-          <span className="flex items-center gap-1.5">
+          <Link href="/buscar" className="flex items-center gap-1.5 hover:text-bora-bronze">
             <Search size={15} strokeWidth={2} />
             Buscar
-          </span>
+          </Link>
           {user ? (
             <>
               <Link
@@ -123,10 +123,14 @@ export default function Header() {
             })}
           </nav>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-white/10 px-5 py-4 text-xs font-medium text-bora-on-dark">
-            <span className="flex items-center gap-1.5">
+            <Link
+              href="/buscar"
+              onClick={() => setOpen(false)}
+              className="flex items-center gap-1.5"
+            >
               <Search size={15} strokeWidth={2} />
               Buscar
-            </span>
+            </Link>
             {user ? (
               <>
                 <Link
