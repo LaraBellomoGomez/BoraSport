@@ -73,8 +73,11 @@ export default function CheckoutPage() {
         ) : (
           <>
             <p className="mb-8 text-bora-text-body">
-              {lines.length} {lines.length === 1 ? "producto" : "productos"} por{" "}
-              <strong className="text-bora-text-dark">{formatARS(subtotal)}</strong>
+              {(() => {
+                const totalUnits = lines.reduce((sum, l) => sum + l.quantity, 0);
+                return `${totalUnits} ${totalUnits === 1 ? "unidad" : "unidades"}`;
+              })()}{" "}
+              por <strong className="text-bora-text-dark">{formatARS(subtotal)}</strong>
             </p>
 
             {error && <p className="mb-4 text-sm text-red-600">{error}</p>}
