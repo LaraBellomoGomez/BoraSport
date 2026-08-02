@@ -85,7 +85,9 @@ Deno.serve(async (req) => {
           failure: `${siteUrl}/checkout/failure`,
           pending: `${siteUrl}/checkout/pending`,
         },
-        auto_return: "approved",
+        // auto_return requires an https back_url — skip it for http (local
+        // dev) so testing doesn't break; production (https) still gets it.
+        ...(siteUrl.startsWith("https://") ? { auto_return: "approved" } : {}),
         notification_url: `${SUPABASE_URL}/functions/v1/mp-webhook`,
       }),
     });
@@ -94,7 +96,14 @@ Deno.serve(async (req) => {
 
     if (!mpResponse.ok) {
       await adminClient.from("orders").update({ status: "failed" }).eq("id", order.id);
-      return json({ error: "No se pudo crear la preferencia de pago", detail: preference }, 502);
+      console.error("Mercado Pago rejected the preference:", mpResponse.status, preference);
+      return json(
+        {
+          error: preference?.message ?? "No se pudo crear la preferencia de pago",
+          detail: preference,
+        },
+        502
+      );
     }
 
     await adminClient
