@@ -29,8 +29,18 @@ export default function CheckoutPage() {
 
     if (fnError || !data?.init_point) {
       setPaying(false);
+      let detail: string | null = null;
+      const context = (fnError as { context?: Response })?.context;
+      if (context) {
+        try {
+          const body = await context.clone().json();
+          detail = body?.error ?? null;
+        } catch {
+          // response wasn't JSON — fall through to generic message
+        }
+      }
       setError(
-        data?.error ?? "No se pudo iniciar el pago. Probá de nuevo en un momento."
+        detail ?? data?.error ?? "No se pudo iniciar el pago. Probá de nuevo en un momento."
       );
       return;
     }
