@@ -1,12 +1,9 @@
 import type { NextConfig } from "next";
 
-const isGithubPages = process.env.GITHUB_ACTIONS === "true";
-const basePath = isGithubPages ? "/BoraSport" : "";
-
+// Served from the root of www.borasports.com.ar (custom domain), not a
+// GitHub Pages sub-path, so no basePath/assetPrefix is needed.
 const nextConfig: NextConfig = {
   output: "export",
-  basePath,
-  assetPrefix: basePath,
   images: {
     unoptimized: true,
   },
