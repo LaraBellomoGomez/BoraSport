@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
 import { ShoppingBag, Check, Heart } from "lucide-react";
 import { formatARS, installmentPrice } from "@/lib/format";
 import { assetPath } from "@/lib/basePath";
@@ -87,12 +86,7 @@ export default function ProductCard({
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 12 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.35 }}
-    >
+    <div>
       <div className="relative mb-2.5 w-full overflow-hidden bg-bora-card-bg pt-[133.33%]">
         <Image
           src={assetPath(image)}
@@ -208,6 +202,6 @@ export default function ProductCard({
         )}
       </button>
       {message && <p className="mt-1.5 text-[11px] text-red-600">{message}</p>}
-    </motion.div>
+    </div>
   );
 }

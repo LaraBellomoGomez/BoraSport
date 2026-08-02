@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Breadcrumb from "@/components/Breadcrumb";
@@ -98,32 +97,22 @@ export default function GenderListing({ gender, title }: { gender: Gender; title
         )}
 
         <div className="mb-16 grid grid-cols-2 gap-x-6 gap-y-7 md:grid-cols-4">
-          <AnimatePresence mode="popLayout">
-            {filtered.map((product) => (
-              <motion.div
-                key={product.slug}
-                layout
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                <ProductCard
-                  slug={product.slug}
-                  productType="apparel"
-                  name={product.name}
-                  image={product.image}
-                  originalPrice={product.originalPrice}
-                  finalPrice={product.finalPrice}
-                  offPercent={product.offPercent}
-                  badgeStyle="bronze"
-                  freeShipping="none"
-                  swatch={product.swatch}
-                  sizes={product.sizes}
-                />
-              </motion.div>
-            ))}
-          </AnimatePresence>
+          {filtered.map((product) => (
+            <ProductCard
+              key={product.slug}
+              slug={product.slug}
+              productType="apparel"
+              name={product.name}
+              image={product.image}
+              originalPrice={product.originalPrice}
+              finalPrice={product.finalPrice}
+              offPercent={product.offPercent}
+              badgeStyle="bronze"
+              freeShipping="none"
+              swatch={product.swatch}
+              sizes={product.sizes}
+            />
+          ))}
         </div>
       </div>
 
