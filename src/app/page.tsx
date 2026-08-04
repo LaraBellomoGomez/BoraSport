@@ -213,14 +213,14 @@ export default function HomePage() {
             {INSTAGRAM_HANDLE}
           </a>
         </div>
-        <div className="grid grid-cols-2 gap-1 sm:grid-cols-3 lg:grid-cols-6">
+        <div className="grid grid-cols-3 gap-1 sm:grid-cols-4 lg:grid-cols-8">
           {INSTAGRAM_IMAGES.map((src, i) => (
             <div key={i} className="relative w-full overflow-hidden pt-[100%]">
               <Image
                 src={assetPath(src)}
                 alt={`Instagram ${i + 1}`}
                 fill
-                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
+                sizes="(max-width: 640px) 33vw, (max-width: 1024px) 25vw, 12vw"
                 className="object-cover"
               />
             </div>

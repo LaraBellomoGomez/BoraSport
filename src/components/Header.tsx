@@ -104,7 +104,7 @@ export default function Header() {
             type="button"
             aria-label={open ? "Cerrar menú" : "Abrir menú"}
             onClick={() => setOpen((v) => !v)}
-            className="flex-none text-bora-text-dark md:hidden"
+            className="col-start-3 flex-none justify-self-end text-bora-text-dark md:hidden"
           >
             {open ? <X size={24} /> : <Menu size={24} />}
           </button>
