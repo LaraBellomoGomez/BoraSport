@@ -215,7 +215,7 @@ export default function HomePage() {
             {INSTAGRAM_HANDLE}
           </a>
         </div>
-        <div className="grid grid-cols-3 gap-1 sm:grid-cols-4 lg:grid-cols-8">
+        <div className="grid grid-cols-4 gap-1 lg:grid-cols-8">
           {INSTAGRAM_IMAGES.map((src, i) => (
             <div key={i} className="relative w-full overflow-hidden pt-[100%]">
               <Image
