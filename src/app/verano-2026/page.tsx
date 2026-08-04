@@ -91,6 +91,7 @@ export default function VeranoPage() {
               offPercent={product.offPercent}
               badgeStyle="bronze"
               freeShipping="top-dark"
+              showInstallments
               sizes={product.sizes}
             />
           ))}

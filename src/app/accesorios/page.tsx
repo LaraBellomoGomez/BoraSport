@@ -52,6 +52,7 @@ export default function AccesoriosPage() {
               offPercent={product.offPercent}
               badgeStyle="bronze"
               freeShipping={product.freeShipping ? "top-dark" : "none"}
+              showInstallments
               imageFit="contain"
             />
           ))}

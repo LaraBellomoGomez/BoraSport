@@ -14,6 +14,13 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
   devIndicators: false,
+  // Plain process.env.GITHUB_ACTIONS isn't inlined into the client bundle
+  // (only NEXT_PUBLIC_* vars are), so lib/basePath.ts read "true" during
+  // the server-side export but undefined after client hydration — breaking
+  // asset URLs right after the page loaded. Exposing it here fixes that.
+  env: {
+    NEXT_PUBLIC_BASE_PATH: basePath,
+  },
 };
 
 export default nextConfig;

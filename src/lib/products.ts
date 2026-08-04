@@ -142,7 +142,7 @@ export const apparelProducts: ApparelProduct[] = [
     gender: "hombre",
     sub: "jerseys",
     originalPrice: 52900,
-    finalPrice: 37500,
+    finalPrice: 1, // TEMP: precio de $1 para prueba real de pago — revertir a 37500
     offPercent: 29,
     freeShipping: true,
     swatch: "#151515",

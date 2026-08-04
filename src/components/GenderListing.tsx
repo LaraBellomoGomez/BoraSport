@@ -106,7 +106,7 @@ export default function GenderListing({ gender, title }: { gender: Gender; title
               offPercent={product.offPercent}
               badgeStyle="bronze"
               freeShipping="top-dark"
-              swatch={product.swatch}
+              showInstallments
               sizes={product.sizes}
             />
           ))}
