@@ -22,6 +22,8 @@ const INSTAGRAM_IMAGES = [
   "/assets/leoa-back-2.jpg",
   "/assets/calza-arena-back.jpg",
   "/assets/accion-ciclista.jpg",
+  "/assets/bermuda-amarela.webp",
+  "/assets/bermuda-calca-preta.webp",
 ];
 
 const PAYMENT_LOGOS = [
