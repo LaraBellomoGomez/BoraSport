@@ -33,16 +33,13 @@ export default function AccesoriosPage() {
           </span>
         </div>
 
-        <div className="mb-7 flex items-center justify-between">
-          <span className="flex items-center gap-2 text-[13px] font-semibold text-neutral-700">
-            ☰ Mostrar filtros
-          </span>
+        <div className="mb-7 flex items-center justify-end">
           <span className="text-xs text-neutral-500">
             {accessoryProducts.length} productos
           </span>
         </div>
 
-        <div className="mb-16 grid grid-cols-2 gap-x-6 gap-y-7 md:grid-cols-4">
+        <div className="mb-16 grid grid-cols-2 gap-x-6 gap-y-7 md:grid-cols-3">
           {accessoryProducts.map((product) => (
             <ProductCard
               key={product.slug}

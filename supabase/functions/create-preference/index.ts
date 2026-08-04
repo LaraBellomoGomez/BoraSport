@@ -111,10 +111,14 @@ Deno.serve(async (req) => {
       .update({ mp_preference_id: preference.id })
       .eq("id", order.id);
 
-    // Prefer sandbox_init_point since we're using TEST credentials — it's
-    // only populated when the preference was created with a test token.
+    // Mercado Pago returns sandbox_init_point regardless of token type, so
+    // decide from the token itself: test tokens start with "TEST-", real
+    // (production) tokens start with "APP_USR-".
+    const isTestToken = MP_ACCESS_TOKEN.startsWith("TEST-");
     return json({
-      init_point: preference.sandbox_init_point ?? preference.init_point,
+      init_point: isTestToken
+        ? (preference.sandbox_init_point ?? preference.init_point)
+        : preference.init_point,
     });
   } catch (err) {
     const message =

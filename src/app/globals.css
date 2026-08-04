@@ -1,14 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  --color-bora-dark: oklch(0.14 0.015 45);
-  --color-bora-dark-alt: oklch(0.1 0.015 45);
-  --color-bora-bronze: oklch(0.7 0.1 55);
-  --color-bora-text-dark: oklch(0.18 0.015 45);
-  --color-bora-text-body: oklch(0.48 0.02 45);
-  --color-bora-on-dark: oklch(0.82 0.02 55);
-  --color-bora-light-gray: oklch(0.94 0 0);
-  --color-bora-card-bg: oklch(0.95 0 0);
+  /* Manual de marca — Bora Sports 2026 */
+  --color-bora-dark: #1e1e1e; /* Negro */
+  --color-bora-dark-alt: #141414;
+  --color-bora-bronze: #ede1cb; /* Beige acento — único acento de marca */
+  --color-bora-text-dark: #1e1e1e; /* Negro */
+  --color-bora-text-body: #6b6b6b; /* Gris */
+  --color-bora-border: #d3d3d3; /* Borde */
+  --color-bora-on-dark: #f8f7f5; /* Blanco card, como texto claro sobre fondos oscuros */
+  --color-bora-light-gray: #ecebe9; /* Fondo */
+  --color-bora-card-bg: #ecebe9; /* Fondo */
   --color-whatsapp: #25d366;
 }
 
@@ -18,16 +20,25 @@
   --color-bora-bronze: var(--color-bora-bronze);
   --color-bora-text-dark: var(--color-bora-text-dark);
   --color-bora-text-body: var(--color-bora-text-body);
+  --color-bora-border: var(--color-bora-border);
   --color-bora-on-dark: var(--color-bora-on-dark);
   --color-bora-light-gray: var(--color-bora-light-gray);
   --color-bora-card-bg: var(--color-bora-card-bg);
   --color-whatsapp: var(--color-whatsapp);
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-jost);
+  --font-heading: var(--font-space-grotesk);
 }
 
 body {
-  background: #fff;
+  background: #f8f7f5;
   color: var(--color-bora-text-dark);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+  font-weight: 700;
 }
 
 * {

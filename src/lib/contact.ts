@@ -10,6 +10,5 @@ export const NAV_LINKS = [
   { href: "/mujer", label: "Mujer" },
   { href: "/hombre", label: "Hombre" },
   { href: "/accesorios", label: "Accesorios" },
-  { href: "/quienes-somos", label: "Quiénes Somos" },
   { href: "/contacto", label: "Contacto" },
 ] as const;

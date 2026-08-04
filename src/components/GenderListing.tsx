@@ -83,10 +83,7 @@ export default function GenderListing({ gender, title }: { gender: Gender; title
           })}
         </div>
 
-        <div className="mb-7 flex items-center justify-between">
-          <span className="flex items-center gap-2 text-[13px] font-semibold text-neutral-700">
-            ☰ Mostrar filtros
-          </span>
+        <div className="mb-7 flex items-center justify-end">
           <span className="text-xs text-neutral-500">
             {counts[tab]} {counts[tab] === 1 ? "producto" : "productos"}
           </span>
@@ -96,7 +93,7 @@ export default function GenderListing({ gender, title }: { gender: Gender; title
           <div className="mb-[18px] text-lg font-bold text-bora-text-dark">{sectionHeader}</div>
         )}
 
-        <div className="mb-16 grid grid-cols-2 gap-x-6 gap-y-7 md:grid-cols-4">
+        <div className="mb-16 grid grid-cols-2 gap-x-6 gap-y-7 md:grid-cols-3">
           {filtered.map((product) => (
             <ProductCard
               key={product.slug}
@@ -108,7 +105,7 @@ export default function GenderListing({ gender, title }: { gender: Gender; title
               finalPrice={product.finalPrice}
               offPercent={product.offPercent}
               badgeStyle="bronze"
-              freeShipping="none"
+              freeShipping="top-dark"
               swatch={product.swatch}
               sizes={product.sizes}
             />

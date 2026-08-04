@@ -30,27 +30,27 @@ export default function NewsletterForm() {
 
   if (status === "done") {
     return (
-      <p className="mx-auto max-w-[420px] text-sm font-semibold text-bora-bronze">
+      <p className="mx-auto max-w-[420px] text-sm font-semibold text-bora-text-dark">
         ¡Gracias por suscribirte!
       </p>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto max-w-[420px]">
-      <div className="flex overflow-hidden rounded-sm bg-white">
+    <form onSubmit={handleSubmit} className="w-full md:w-[480px]">
+      <div className="flex overflow-hidden rounded bg-white">
         <input
           type="email"
           required
           placeholder="Tu email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="flex-1 px-4 py-3.5 text-sm text-neutral-700 outline-none"
+          className="w-full flex-1 px-5 py-[18px] text-base text-neutral-700 outline-none"
         />
         <button
           type="submit"
           disabled={status === "loading"}
-          className="bg-bora-bronze px-6 py-3.5 text-[13px] font-bold whitespace-nowrap text-black disabled:opacity-60"
+          className="bg-bora-dark px-8 py-[18px] text-sm font-bold whitespace-nowrap text-white disabled:opacity-60"
         >
           {status === "loading" ? "Enviando…" : "Enviar →"}
         </button>

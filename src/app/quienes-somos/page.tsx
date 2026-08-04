@@ -15,9 +15,9 @@ export default function QuienesSomosPage() {
       <Header />
 
       <section className="mx-auto grid max-w-[1280px] grid-cols-1 items-center gap-10 px-5 py-16 md:grid-cols-[0.9fr_1.1fr] md:gap-16 md:px-10 md:py-24">
-        <div className="relative w-full overflow-hidden rounded-md pt-[100%]">
+        <div className="relative w-full overflow-hidden rounded-md pt-[133.33%]">
           <Image
-            src={assetPath("/assets/duo-modelos-2.jpg")}
+            src={assetPath("/assets/duo-modelos-3.jpg")}
             alt="Foto de marca: equipo Bora Sports"
             fill
             sizes="(max-width: 768px) 100vw, 45vw"
@@ -25,7 +25,7 @@ export default function QuienesSomosPage() {
           />
         </div>
         <div>
-          <div className="mb-4 text-xs font-medium tracking-[0.12em] text-bora-bronze uppercase">
+          <div className="mb-4 text-xs font-medium tracking-[0.12em] text-bora-text-dark uppercase">
             Quiénes Somos
           </div>
           <h1 className="mb-5 text-3xl leading-[1.1] font-extrabold tracking-tight text-bora-text-dark md:text-[38px]">

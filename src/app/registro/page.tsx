@@ -2,15 +2,19 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { Eye, EyeOff } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { supabase } from "@/lib/supabase";
 import { assetPath } from "@/lib/basePath";
 
 export default function RegistroPage() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -33,6 +37,7 @@ export default function RegistroPage() {
       email,
       password,
       options: {
+        data: { full_name: name.trim() },
         emailRedirectTo: `${window.location.origin}${assetPath("/")}`,
       },
     });
@@ -60,7 +65,7 @@ export default function RegistroPage() {
           <p className="mb-6 text-bora-text-body">
             Te enviamos un email a <strong>{email}</strong> para confirmar tu cuenta.
             Revisá tu bandeja de entrada (y spam) y después volvé a{" "}
-            <Link href="/login" className="font-semibold text-bora-bronze hover:underline">
+            <Link href="/login" className="font-bold text-bora-text-dark hover:underline">
               iniciar sesión
             </Link>
             .
@@ -81,6 +86,16 @@ export default function RegistroPage() {
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <label className="flex flex-col gap-1.5 text-sm font-medium text-bora-text-dark">
+            Nombre
+            <input
+              type="text"
+              required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="border border-neutral-300 px-4 py-3 text-sm outline-none focus:border-bora-bronze"
+            />
+          </label>
+          <label className="flex flex-col gap-1.5 text-sm font-medium text-bora-text-dark">
             Email
             <input
               type="email"
@@ -92,23 +107,43 @@ export default function RegistroPage() {
           </label>
           <label className="flex flex-col gap-1.5 text-sm font-medium text-bora-text-dark">
             Contraseña
-            <input
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="border border-neutral-300 px-4 py-3 text-sm outline-none focus:border-bora-bronze"
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full border border-neutral-300 px-4 py-3.5 pr-11 text-2xl font-bold tracking-wider outline-none focus:border-bora-bronze"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((v) => !v)}
+                aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                className="absolute top-1/2 right-3 -translate-y-1/2 text-neutral-500 hover:text-bora-text-dark"
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </label>
           <label className="flex flex-col gap-1.5 text-sm font-medium text-bora-text-dark">
             Confirmar contraseña
-            <input
-              type="password"
-              required
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="border border-neutral-300 px-4 py-3 text-sm outline-none focus:border-bora-bronze"
-            />
+            <div className="relative">
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                required
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-full border border-neutral-300 px-4 py-3.5 pr-11 text-2xl font-bold tracking-wider outline-none focus:border-bora-bronze"
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword((v) => !v)}
+                aria-label={showConfirmPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                className="absolute top-1/2 right-3 -translate-y-1/2 text-neutral-500 hover:text-bora-text-dark"
+              >
+                {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </label>
 
           {error && <p className="text-sm text-red-600">{error}</p>}
@@ -124,7 +159,7 @@ export default function RegistroPage() {
 
         <p className="mt-6 text-center text-sm text-bora-text-body">
           ¿Ya tenés cuenta?{" "}
-          <Link href="/login" className="font-semibold text-bora-bronze hover:underline">
+          <Link href="/login" className="font-bold text-bora-text-dark hover:underline">
             Ingresá
           </Link>
         </p>

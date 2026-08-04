@@ -10,6 +10,7 @@ import { assetPath } from "@/lib/basePath";
 import { useAuth } from "@/lib/AuthContext";
 import { useCart } from "@/lib/CartContext";
 import { useFavorites } from "@/lib/FavoritesContext";
+import PromoBar from "@/components/PromoBar";
 
 export default function Header() {
   const pathname = usePathname();
@@ -18,6 +19,10 @@ export default function Header() {
   const { count } = useCart();
   const { lines: favoriteLines } = useFavorites();
   const [open, setOpen] = useState(false);
+  const displayName =
+    (user?.user_metadata?.full_name as string | undefined)?.split(" ")[0] ||
+    user?.email?.split("@")[0] ||
+    "";
 
   async function handleSignOut() {
     await signOut();
@@ -26,103 +31,103 @@ export default function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-bora-dark">
-      <div className="flex items-center justify-between gap-4 px-5 py-3">
-        <Link href="/" className="flex-none" onClick={() => setOpen(false)}>
-          <Image
-            src={assetPath("/assets/bora-logo-2.png")}
-            alt="Bora Sports"
-            width={160}
-            height={52}
-            className="h-11 w-auto object-contain md:h-[52px]"
-            priority
-          />
-        </Link>
-
-        <nav className="hidden min-w-0 flex-1 items-center justify-center gap-5 overflow-x-auto text-xs font-semibold tracking-wide text-bora-on-dark uppercase md:flex">
-          {NAV_LINKS.map((link) => {
-            const active = pathname === link.href;
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="flex-none transition-colors hover:text-bora-bronze"
-                style={active ? { color: "var(--color-bora-bronze)" } : undefined}
-              >
-                {link.label}
-              </Link>
-            );
-          })}
-        </nav>
-
-        <div className="hidden flex-none items-center gap-4 text-[11px] font-medium text-bora-on-dark md:flex">
-          <Link href="/buscar" className="flex items-center gap-1.5 hover:text-bora-bronze">
-            <Search size={15} strokeWidth={2} />
-            Buscar
+    <>
+      <PromoBar />
+      <header className="sticky top-0 z-50 border-b border-bora-border bg-[color:var(--color-bora-on-dark)]">
+        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 px-5 py-3">
+          <Link href="/" className="flex-none justify-self-start" onClick={() => setOpen(false)}>
+            <Image
+              src={assetPath("/assets/logo.definitivo.png")}
+              alt="Bora Sports"
+              width={132}
+              height={88}
+              className="h-16 w-auto object-contain md:h-[88px]"
+              priority
+            />
           </Link>
-          {user ? (
-            <>
-              <Link
-                href="/favoritos"
-                className="flex items-center gap-1.5 hover:text-bora-bronze"
-              >
-                <Heart size={15} strokeWidth={2} />
-                Favoritos ({favoriteLines.length})
-              </Link>
-              <Link
-                href="/carrito"
-                className="flex items-center gap-1.5 bg-bora-bronze px-3 py-2 font-bold text-bora-dark"
-              >
-                <ShoppingBag size={14} strokeWidth={2.5} />
-                Carrito ({count})
-              </Link>
-              <span className="max-w-[140px] truncate">{user.email}</span>
-              <button
-                type="button"
-                onClick={handleSignOut}
-                className="flex items-center gap-1.5 hover:text-bora-bronze"
-              >
-                <LogOut size={15} strokeWidth={2} />
-                Salir
-              </button>
-            </>
-          ) : (
-            <Link href="/login" className="flex items-center gap-1.5 hover:text-bora-bronze">
-              <User size={15} strokeWidth={2} />
-              Ingresá
-            </Link>
-          )}
-        </div>
 
-        <button
-          type="button"
-          aria-label={open ? "Cerrar menú" : "Abrir menú"}
-          onClick={() => setOpen((v) => !v)}
-          className="flex-none text-bora-on-dark md:hidden"
-        >
-          {open ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </div>
-
-      {open && (
-        <div className="border-t border-white/10 md:hidden">
-          <nav className="flex flex-col gap-1 px-5 py-4 text-sm font-semibold tracking-wide text-bora-on-dark uppercase">
+          <nav className="hidden min-w-0 items-center justify-center gap-5 overflow-x-auto text-xs font-semibold tracking-wide text-bora-text-dark uppercase md:flex">
             {NAV_LINKS.map((link) => {
               const active = pathname === link.href;
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  onClick={() => setOpen(false)}
-                  className="py-2.5"
-                  style={active ? { color: "var(--color-bora-bronze)" } : undefined}
+                  className={`flex-none transition-colors hover:underline ${active ? "underline" : ""}`}
                 >
                   {link.label}
                 </Link>
               );
             })}
           </nav>
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-white/10 px-5 py-4 text-xs font-medium text-bora-on-dark">
+
+          <div className="hidden flex-none items-center gap-4 justify-self-end text-[11px] font-medium text-bora-text-dark md:flex">
+            <Link href="/buscar" className="flex items-center gap-1.5 hover:underline">
+              <Search size={15} strokeWidth={2} />
+              Buscar
+            </Link>
+            {user ? (
+              <>
+                <Link href="/favoritos" className="flex items-center gap-1.5 hover:underline">
+                  <Heart size={15} strokeWidth={2} />
+                  Favoritos ({favoriteLines.length})
+                </Link>
+                <Link
+                  href="/carrito"
+                  className="flex items-center gap-1.5 rounded bg-bora-dark px-3 py-2 font-bold text-white hover:opacity-90"
+                >
+                  <ShoppingBag size={14} strokeWidth={2.5} />
+                  Carrito ({count})
+                </Link>
+                <span className="max-w-[110px] truncate">{displayName}</span>
+                <button
+                  type="button"
+                  onClick={handleSignOut}
+                  className="flex items-center gap-1.5 hover:underline"
+                >
+                  <LogOut size={15} strokeWidth={2} />
+                  Salir
+                </button>
+              </>
+            ) : (
+              <Link
+                href="/login"
+                className="flex items-center gap-1.5 font-bold text-bora-text-dark hover:underline"
+              >
+                <User size={15} strokeWidth={2} />
+                Ingresá
+              </Link>
+            )}
+          </div>
+
+          <button
+            type="button"
+            aria-label={open ? "Cerrar menú" : "Abrir menú"}
+            onClick={() => setOpen((v) => !v)}
+            className="flex-none text-bora-text-dark md:hidden"
+          >
+            {open ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+
+        {open && (
+          <div className="border-t border-bora-border md:hidden">
+            <nav className="flex flex-col gap-1 px-5 py-4 text-sm font-semibold tracking-wide text-bora-text-dark uppercase">
+              {NAV_LINKS.map((link) => {
+                const active = pathname === link.href;
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                    className={`py-2.5 ${active ? "underline" : ""}`}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
+            </nav>
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-bora-border px-5 py-4 text-xs font-medium text-bora-text-dark">
             <Link
               href="/buscar"
               onClick={() => setOpen(false)}
@@ -162,7 +167,7 @@ export default function Header() {
               <Link
                 href="/login"
                 onClick={() => setOpen(false)}
-                className="flex items-center gap-1.5"
+                className="flex items-center gap-1.5 font-bold text-bora-text-dark"
               >
                 <User size={15} strokeWidth={2} />
                 Ingresá
@@ -170,7 +175,8 @@ export default function Header() {
             )}
           </div>
         </div>
-      )}
-    </header>
+        )}
+      </header>
+    </>
   );
 }

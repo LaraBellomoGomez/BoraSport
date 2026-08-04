@@ -86,8 +86,8 @@ export default function ProductCard({
   }
 
   return (
-    <div>
-      <div className="relative mb-2.5 w-full overflow-hidden bg-bora-card-bg pt-[133.33%]">
+    <div className="flex h-full flex-col">
+      <div className="relative mb-2.5 w-full overflow-hidden rounded bg-bora-card-bg pt-[133.33%]">
         <Image
           src={assetPath(image)}
           alt={name}
@@ -96,7 +96,7 @@ export default function ProductCard({
           className={imageFit === "contain" ? "object-contain p-4" : "object-cover"}
         />
         <div
-          className={`absolute top-2.5 left-2.5 px-2 py-1 text-[11px] font-bold ${
+          className={`absolute top-2.5 left-2.5 rounded px-2 py-1 text-[11px] font-bold ${
             badgeStyle === "dark"
               ? "bg-bora-dark text-white"
               : "bg-bora-bronze text-bora-dark"
@@ -129,7 +129,7 @@ export default function ProductCard({
         </button>
       </div>
 
-      <div className="mb-1 text-[13px] font-medium text-bora-text-dark md:text-sm">
+      <div className="mb-1 line-clamp-2 min-h-[2.6em] text-[13px] font-medium text-bora-text-dark md:text-sm">
         {name}
       </div>
 
@@ -167,15 +167,15 @@ export default function ProductCard({
                 setSelectedSize(size);
                 setMessage(null);
               }}
-              className="cursor-pointer border px-2.5 py-1 text-xs font-medium transition-colors"
+              className="cursor-pointer rounded border px-2.5 py-1 text-xs font-medium transition-colors"
               style={
                 selectedSize === size
                   ? {
-                      borderColor: "var(--color-bora-bronze)",
-                      background: "var(--color-bora-bronze)",
-                      color: "var(--color-bora-dark)",
+                      borderColor: "var(--color-bora-dark)",
+                      background: "var(--color-bora-dark)",
+                      color: "#fff",
                     }
-                  : { borderColor: "oklch(0.8 0 0)", color: "#404040" }
+                  : { borderColor: "var(--color-bora-border)", color: "var(--color-bora-text-dark)" }
               }
             >
               {size}
@@ -184,11 +184,13 @@ export default function ProductCard({
         </div>
       )}
 
+      <div className="flex-1" />
+
       <button
         type="button"
         onClick={handleAddToCart}
         disabled={status === "adding"}
-        className="flex w-full items-center justify-center gap-1.5 border border-bora-text-dark py-2.5 text-xs font-bold tracking-wide text-bora-text-dark uppercase transition-colors hover:bg-bora-text-dark hover:text-white disabled:opacity-60"
+        className="flex w-full items-center justify-center gap-1.5 rounded bg-bora-dark py-2.5 text-xs font-bold tracking-wide text-white uppercase transition-opacity hover:opacity-85 disabled:opacity-60"
       >
         {status === "added" ? (
           <>

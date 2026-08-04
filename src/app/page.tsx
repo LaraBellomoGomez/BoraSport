@@ -1,12 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
-import PromoBar from "@/components/PromoBar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
 import NewsletterForm from "@/components/NewsletterForm";
 import { featuredProducts } from "@/lib/products";
-import { INSTAGRAM_HANDLE, INSTAGRAM_URL } from "@/lib/contact";
+import { INSTAGRAM_HANDLE, INSTAGRAM_URL, WHATSAPP_URL } from "@/lib/contact";
 import { assetPath } from "@/lib/basePath";
 
 const QUICK_LINKS = [
@@ -49,10 +48,9 @@ const PAYMENT_LOGOS = [
 export default function HomePage() {
   return (
     <>
-      <PromoBar />
       <Header />
 
-      <section className="mx-auto max-w-[1400px] px-5 pt-6 md:px-10">
+      <section className="w-full">
         <div className="relative w-full overflow-hidden pt-[42.86%] md:pt-[38.1%]">
           <Image
             src={assetPath("/assets/hero-3.webp")}
@@ -69,27 +67,36 @@ export default function HomePage() {
                 "linear-gradient(90deg, oklch(0.1 0.015 45 / 0.72), oklch(0.1 0.015 45 / 0.15) 55%, transparent 75%)",
             }}
           />
-          <div className="absolute top-1/2 left-[5%] max-w-[440px] -translate-y-1/2">
+          <div className="absolute top-1/2 left-[5%] max-w-[520px] -translate-y-1/2">
             <div className="mb-3 text-xs font-bold tracking-[0.1em] text-bora-bronze uppercase">
               Colección Verano 2026
             </div>
-            <div
-              className="mb-5 text-3xl leading-[1.05] font-extrabold tracking-tight text-white md:text-[44px]"
+            <h1
+              className="mb-5 text-4xl leading-[0.95] font-bold tracking-tight text-white uppercase md:text-[64px] lg:text-[80px]"
               style={{ textShadow: "0 2px 14px rgba(0,0,0,.5)" }}
             >
-              Tecnología + confort
+              Tecnología
+              <br />+ confort
+            </h1>
+            <div className="flex flex-wrap items-center gap-6">
+              <Link
+                href="/verano-2026"
+                className="inline-block rounded bg-white px-7 py-3.5 text-[13px] font-bold tracking-wider text-bora-dark uppercase hover:opacity-90"
+              >
+                Ver colección
+              </Link>
+              <Link
+                href="#destacados"
+                className="text-[13px] font-bold tracking-wider text-white underline underline-offset-4 uppercase"
+              >
+                Descubrir más
+              </Link>
             </div>
-            <Link
-              href="/verano-2026"
-              className="inline-block bg-bora-bronze px-7 py-3.5 text-[13px] font-bold tracking-wider text-bora-dark uppercase"
-            >
-              Ver colección
-            </Link>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-[1400px] grid-cols-2 gap-3.5 px-5 pt-5 pb-2 md:grid-cols-4 md:px-10">
+      <section className="grid w-full grid-cols-2 md:grid-cols-4">
         {QUICK_LINKS.map((item) => (
           <Link
             key={item.href}
@@ -149,19 +156,64 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1400px] px-5 py-14 text-center md:px-10">
-        <h2 className="mb-1.5 text-2xl font-extrabold tracking-tight text-bora-text-dark md:text-[26px]">
-          Seguinos
-        </h2>
-        <a
-          href={INSTAGRAM_URL}
-          target="_blank"
-          rel="noreferrer"
-          className="mb-7 inline-block text-[15px] font-semibold text-bora-bronze"
-        >
-          {INSTAGRAM_HANDLE} en Instagram
-        </a>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+      <section className="mx-auto grid max-w-[1400px] grid-cols-1 items-center gap-10 px-5 py-16 md:grid-cols-[0.9fr_1.1fr] md:gap-16 md:px-10 md:py-24">
+        <div className="relative w-full overflow-hidden rounded pt-[133.33%]">
+          <Image
+            src={assetPath("/assets/duo-modelos-3.jpg")}
+            alt="Foto de marca: equipo Bora Sports"
+            fill
+            sizes="(max-width: 768px) 100vw, 45vw"
+            className="object-cover"
+          />
+        </div>
+        <div>
+          <div className="mb-4 text-xs font-medium tracking-[0.12em] text-bora-text-dark uppercase">
+            Quiénes Somos
+          </div>
+          <h2 className="mb-5 text-3xl leading-[1.1] font-extrabold tracking-tight text-bora-text-dark md:text-[38px]">
+            No sigas tendencias, créalas.
+          </h2>
+          <p className="mb-4 max-w-[520px] text-base leading-relaxed text-bora-text-body">
+            En Bora Sports creemos en el poder de la pasión y la autenticidad.
+            Nacimos para fusionar el rendimiento deportivo con un estilo
+            propio, con indumentaria que refleja personalidad, energía y
+            determinación en cada pedaleada.
+          </p>
+          <p className="mb-6 max-w-[520px] text-base leading-relaxed text-bora-text-body">
+            Inspirados en la fuerza de la naturaleza, nuestros diseños
+            capturan la esencia de la velocidad, la resistencia y el
+            instinto: piezas que no solo te acompañan en el camino, sino que
+            cuentan tu historia. Cada producto está pensado para quienes
+            buscan algo más que ropa deportiva — construimos una comunidad
+            donde la actitud, la calidad y el diseño van de la mano.
+          </p>
+          <p className="mb-7 max-w-[480px] text-[17px] leading-snug font-bold text-bora-text-dark">
+            Sé parte de la evolución con Bora Sports.
+          </p>
+          <a
+            href={`${WHATSAPP_URL}?text=Hola%2C%20quiero%20conocer%20m%C3%A1s%20sobre%20Bora%20Sports`}
+            className="inline-block rounded bg-bora-dark px-7 py-4 text-[13px] font-bold tracking-wider text-white uppercase hover:opacity-90"
+          >
+            Conocenos más / Consultas por WhatsApp
+          </a>
+        </div>
+      </section>
+
+      <section className="bg-bora-dark py-12">
+        <div className="mb-7 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 px-5 md:px-10">
+          <h2 className="text-2xl font-extrabold tracking-tight text-white md:text-[26px]">
+            Seguinos en Instagram
+          </h2>
+          <a
+            href={INSTAGRAM_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="text-[15px] font-semibold text-bora-bronze"
+          >
+            {INSTAGRAM_HANDLE}
+          </a>
+        </div>
+        <div className="grid grid-cols-2 gap-1 sm:grid-cols-3 lg:grid-cols-6">
           {INSTAGRAM_IMAGES.map((src, i) => (
             <div key={i} className="relative w-full overflow-hidden pt-[100%]">
               <Image
@@ -176,7 +228,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-bora-light-gray px-5 py-12 md:px-10">
+      <section className="bg-white px-5 py-12 md:px-10">
         <div className="mx-auto max-w-[1400px]">
           <div className="mb-4 text-[13px] font-bold tracking-wider text-neutral-600 uppercase">
             Medios de pago
@@ -206,14 +258,18 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-bora-dark px-5 py-12 text-center md:px-10">
-        <div className="mb-2.5 text-[11px] font-medium tracking-[0.1em] text-bora-bronze/80 uppercase">
-          Newsletter
+      <section className="flex w-full flex-col gap-6 bg-bora-bronze px-5 py-10 md:flex-row md:items-center md:justify-between md:px-10">
+        <div>
+          <div className="mb-2 text-[11px] font-medium tracking-[0.1em] text-bora-text-dark/70 uppercase">
+            Newsletter
+          </div>
+          <h2 className="text-2xl font-extrabold text-bora-text-dark">
+            Suscribite y recibí todas las ofertas
+          </h2>
         </div>
-        <h2 className="mb-5 text-2xl font-extrabold text-neutral-50">
-          Suscribite y recibí todas las ofertas
-        </h2>
-        <NewsletterForm />
+        <div className="md:flex-none">
+          <NewsletterForm />
+        </div>
       </section>
 
       <Footer />

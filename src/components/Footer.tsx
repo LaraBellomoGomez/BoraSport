@@ -6,14 +6,14 @@ import { assetPath } from "@/lib/basePath";
 export default function Footer() {
   return (
     <footer className="bg-bora-dark-alt px-5 pt-14 pb-7 md:px-10">
-      <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-8 border-b border-white/10 pb-9 sm:grid-cols-3">
+      <div className="grid w-full grid-cols-1 gap-8 border-b border-white/10 pb-9 sm:grid-cols-3">
         <div>
           <Image
-            src={assetPath("/assets/bora-logo-2.png")}
+            src={assetPath("/assets/logo.definitivo.png")}
             alt="Bora Sports"
-            width={160}
-            height={52}
-            className="mb-3.5 h-[52px] w-auto object-contain"
+            width={108}
+            height={72}
+            className="mb-3.5 h-[72px] w-auto object-contain invert"
           />
           <p className="max-w-[250px] text-[13px] leading-relaxed text-bora-on-dark/70">
             Indumentaria técnica de ciclismo, diseñada para quienes pedalean con actitud.
@@ -63,7 +63,7 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <div className="mx-auto max-w-[1400px] pt-5 text-[11px] text-bora-on-dark/50">
+      <div className="w-full pt-5 text-center text-[11px] text-bora-on-dark/50">
         Copyright Bora Sports · 2026. Todos los derechos reservados.
       </div>
     </footer>
