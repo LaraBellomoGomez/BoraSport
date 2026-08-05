@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ShoppingBag, Check, Heart } from "lucide-react";
-import { formatARS, installmentPrice } from "@/lib/format";
+import { formatARS } from "@/lib/format";
 import { assetPath } from "@/lib/basePath";
 import { useAuth } from "@/lib/AuthContext";
 import { useCart } from "@/lib/CartContext";
@@ -21,7 +21,6 @@ interface ProductCardProps {
   offPercent: number;
   badgeStyle?: "dark" | "bronze";
   freeShipping?: "none" | "bottom-white" | "top-dark";
-  showInstallments?: boolean;
   imageFit?: "cover" | "contain";
   swatch?: string;
   sizes?: string[];
@@ -37,7 +36,6 @@ export default function ProductCard({
   offPercent,
   badgeStyle = "bronze",
   freeShipping = "none",
-  showInstallments = false,
   imageFit = "cover",
   swatch,
   sizes,
@@ -141,12 +139,6 @@ export default function ProductCard({
           {formatARS(finalPrice)}
         </span>
       </div>
-
-      {showInstallments && (
-        <div className="mt-0.5 text-[11px] text-bora-text-body">
-          3 cuotas sin interés de {formatARS(installmentPrice(finalPrice))}
-        </div>
-      )}
 
       {swatch && (
         <div className="mt-2.5 mb-2.5 flex gap-2">

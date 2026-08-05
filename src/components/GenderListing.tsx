@@ -106,7 +106,6 @@ export default function GenderListing({ gender, title }: { gender: Gender; title
               offPercent={product.offPercent}
               badgeStyle="bronze"
               freeShipping="top-dark"
-              showInstallments
               sizes={product.sizes}
             />
           ))}

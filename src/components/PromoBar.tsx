@@ -1,7 +1,7 @@
 const MESSAGES = [
-  "30% OFF POR TRANSFERENCIA",
-  "3 CUOTAS SIN INTERÉS",
-  "ENVÍOS A TODO EL PAÍS",
+  "ENVÍO A TODO EL PAÍS",
+  "ATENCIÓN PERSONALIZADA POR WHATSAPP",
+  "COMPRA SEGURA",
 ];
 
 export default function PromoBar() {

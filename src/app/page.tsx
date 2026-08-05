@@ -143,7 +143,6 @@ export default function HomePage() {
               offPercent={product.offPercent}
               badgeStyle="dark"
               freeShipping="bottom-white"
-              showInstallments
               sizes={product.sizes}
             />
           ))}
