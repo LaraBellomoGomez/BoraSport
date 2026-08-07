@@ -65,13 +65,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="grid w-full grid-cols-2 md:grid-cols-4">
+      <section className="hide-scrollbar flex w-full snap-x snap-mandatory overflow-x-auto md:grid md:grid-cols-4 md:overflow-visible">
         {QUICK_LINKS.map((item) => (
           <Link
             key={item.href}
             href={item.href}
             aria-label={item.label}
-            className="group relative h-[45vh] w-full overflow-hidden border border-bora-border bg-white md:h-[85vh]"
+            className="group relative h-[45vh] w-1/2 flex-none snap-start overflow-hidden border border-bora-border bg-white md:h-[85vh] md:w-full"
           >
             <Image
               src={assetPath(item.image)}
@@ -106,7 +106,7 @@ export default function HomePage() {
         <div className="mt-8 text-center">
           <Link
             href="/mujer"
-            className="inline-block border border-bora-text-dark px-8 py-3.5 text-xs font-bold tracking-wider text-bora-text-dark uppercase"
+            className="inline-block rounded bg-bora-dark px-8 py-3.5 text-xs font-bold tracking-wider text-white uppercase transition-[opacity,transform] duration-150 ease-out-strong hover:opacity-85 active:scale-[0.97]"
           >
             Ver todos los productos
           </Link>

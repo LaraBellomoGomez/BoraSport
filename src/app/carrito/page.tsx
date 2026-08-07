@@ -118,7 +118,7 @@ export default function CarritoPage() {
                 {formatARS(subtotal)}
               </span>
             </div>
-            <p className="mt-2 text-right text-xs text-bora-text-body">
+            <p className="mt-2 text-right text-xs font-bold text-[#e0455c]">
               Abonando por transferencia bancaria obtenés un 10% de descuento sobre el precio
               publicado.
             </p>
