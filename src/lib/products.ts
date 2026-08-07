@@ -134,8 +134,8 @@ export const apparelProducts: ApparelProduct[] = [
     image: "/assets/jersey-fenix-preto.webp",
     gender: "hombre",
     sub: "jerseys",
-    listPrice: 1, // TEMP: precio de $1 para prueba real de pago — revertir a 59900
-    transferPrice: 1, // TEMP: idem — revertir a 53900
+    listPrice: 59900,
+    transferPrice: 53900,
     freeShipping: true,
     swatch: "#151515",
     sizes: ["S", "M", "L", "XL"],
