@@ -3,12 +3,10 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Check, X } from "lucide-react";
+import { X } from "lucide-react";
 import { assetPath } from "@/lib/basePath";
 import { formatARS } from "@/lib/format";
 import { useCart } from "@/lib/CartContext";
-
-const AUTO_CLOSE_MS = 4000;
 
 export default function AddedToCartModal() {
   const { lastAdded, clearLastAdded } = useCart();
@@ -17,13 +15,11 @@ export default function AddedToCartModal() {
   useEffect(() => {
     if (!lastAdded) return;
     const showTimer = requestAnimationFrame(() => setVisible(true));
-    const closeTimer = setTimeout(clearLastAdded, AUTO_CLOSE_MS);
     return () => {
       cancelAnimationFrame(showTimer);
-      clearTimeout(closeTimer);
       setVisible(false);
     };
-  }, [lastAdded, clearLastAdded]);
+  }, [lastAdded]);
 
   if (!lastAdded) return null;
 
@@ -40,18 +36,15 @@ export default function AddedToCartModal() {
         }`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="mb-4 flex items-center justify-between">
-          <div className="flex items-center gap-2 text-sm font-bold text-bora-text-dark">
-            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-bora-dark text-white">
-              <Check size={14} />
-            </span>
-            Agregado al carrito
-          </div>
+        <div className="relative mb-5">
+          <h2 className="text-center text-sm font-bold tracking-wide text-bora-text-dark uppercase">
+            ¡Agregado al carrito!
+          </h2>
           <button
             type="button"
             onClick={clearLastAdded}
             aria-label="Cerrar"
-            className="text-bora-text-body transition-transform duration-150 ease-out-strong hover:scale-110 active:scale-90"
+            className="absolute top-1/2 right-0 -translate-y-1/2 text-bora-text-body transition-transform duration-150 ease-out-strong hover:scale-110 active:scale-90"
           >
             <X size={18} />
           </button>

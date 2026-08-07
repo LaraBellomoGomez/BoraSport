@@ -76,6 +76,7 @@ export default function ProductCard({
       return;
     }
     setStatus("added");
+    setSelectedSize(null);
     setTimeout(() => setStatus("idle"), 1600);
   }
 
