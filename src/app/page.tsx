@@ -9,10 +9,10 @@ import { INSTAGRAM_HANDLE, INSTAGRAM_URL, WHATSAPP_URL } from "@/lib/contact";
 import { assetPath } from "@/lib/basePath";
 
 const QUICK_LINKS = [
-  { href: "/mujer", label: "Mujer", image: "/assets/jersey-bermuda-leoa.webp" },
-  { href: "/hombre", label: "Hombre", image: "/assets/jersey-fenix-verde.webp" },
-  { href: "/accesorios", label: "Accesorios", image: "/assets/funda-full-protection.webp" },
-  { href: "/verano-2026", label: "Verano 2026", image: "/assets/hero-2.webp" },
+  { href: "/mujer", label: "Mujer", image: "/assets/quicklink-mujer.png" },
+  { href: "/hombre", label: "Hombre", image: "/assets/quicklink-hombre.png" },
+  { href: "/accesorios", label: "Accesorios", image: "/assets/quicklink-accesorios.png" },
+  { href: "/verano-2026", label: "Verano 2026", image: "/assets/quicklink-verano.png" },
 ];
 
 const INSTAGRAM_IMAGES = [
@@ -53,7 +53,7 @@ export default function HomePage() {
       <Header />
 
       <section className="w-full">
-        <div className="relative w-full overflow-hidden pt-[42%] md:pt-[38%]">
+        <div className="relative w-full overflow-hidden pt-[50%] md:pt-[46%]">
           <Image
             src={assetPath("/assets/hero-final-sale.webp")}
             alt="Final Sale 20% OFF — 10% OFF extra con transferencia"
@@ -70,25 +70,16 @@ export default function HomePage() {
           <Link
             key={item.href}
             href={item.href}
-            className="group relative w-full overflow-hidden pt-[100%]"
+            aria-label={item.label}
+            className="group relative h-[45vh] w-full overflow-hidden border border-bora-border bg-white md:h-[85vh]"
           >
             <Image
               src={assetPath(item.image)}
               alt={item.label}
               fill
               sizes="(max-width: 768px) 50vw, 25vw"
-              className="object-cover transition-transform duration-300 group-hover:scale-105"
+              className="object-contain p-1 transition-transform duration-300 ease-out-strong group-hover:scale-105"
             />
-            <div
-              className="absolute inset-0"
-              style={{
-                background:
-                  "linear-gradient(0deg, oklch(0.14 0.015 45 / 0.55), transparent 55%)",
-              }}
-            />
-            <div className="absolute bottom-3 left-3.5 text-[15px] font-bold text-white">
-              {item.label}
-            </div>
           </Link>
         ))}
       </section>
