@@ -53,48 +53,15 @@ export default function HomePage() {
       <Header />
 
       <section className="w-full">
-        <div className="relative w-full overflow-hidden pt-[42.86%] md:pt-[38.1%]">
+        <div className="relative w-full overflow-hidden pt-[53.35%]">
           <Image
-            src={assetPath("/assets/hero-3.webp")}
-            alt="Colección Verano 2026 Bora Sports"
+            src={assetPath("/assets/hero-final-sale.webp")}
+            alt="Final Sale 20% OFF — 10% OFF extra con transferencia"
             fill
             priority
             sizes="100vw"
             className="object-cover"
           />
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(90deg, oklch(0.1 0.015 45 / 0.72), oklch(0.1 0.015 45 / 0.15) 55%, transparent 75%)",
-            }}
-          />
-          <div className="absolute top-1/2 left-[5%] max-w-[520px] -translate-y-1/2">
-            <div className="mb-3 text-xs font-bold tracking-[0.1em] text-bora-bronze uppercase">
-              Colección Verano 2026
-            </div>
-            <h1
-              className="mb-5 text-4xl leading-[0.95] font-bold tracking-tight text-white uppercase md:text-[64px] lg:text-[80px]"
-              style={{ textShadow: "0 2px 14px rgba(0,0,0,.5)" }}
-            >
-              Tecnología
-              <br />+ confort
-            </h1>
-            <div className="flex flex-wrap items-center gap-6">
-              <Link
-                href="/verano-2026"
-                className="inline-block rounded bg-white px-7 py-3.5 text-[13px] font-bold tracking-wider text-bora-dark uppercase hover:opacity-90"
-              >
-                Ver colección
-              </Link>
-              <Link
-                href="#destacados"
-                className="text-[13px] font-bold tracking-wider text-white underline underline-offset-4 uppercase"
-              >
-                Descubrir más
-              </Link>
-            </div>
-          </div>
         </div>
       </section>
 

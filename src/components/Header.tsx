@@ -37,7 +37,7 @@ export default function Header() {
         <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 px-5 py-2">
           <Link
             href="/"
-            className="relative inline-block aspect-[1536/750] h-9 flex-none justify-self-start overflow-hidden md:h-11"
+            className="relative inline-block aspect-[1536/665] h-9 flex-none justify-self-start overflow-hidden md:h-11"
             onClick={() => setOpen(false)}
           >
             <Image
