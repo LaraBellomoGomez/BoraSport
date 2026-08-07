@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ShoppingBag, Check, Heart } from "lucide-react";
 import { formatARS } from "@/lib/format";
@@ -83,15 +84,17 @@ export default function ProductCard({
   return (
     <div className="group flex h-full flex-col">
       <div className="relative mb-2.5 w-full overflow-hidden rounded bg-bora-card-bg pt-[133.33%] transition-shadow duration-200 ease-out-strong group-hover:shadow-lg">
-        <Image
-          src={assetPath(image)}
-          alt={name}
-          fill
-          sizes="(max-width: 768px) 50vw, 25vw"
-          className={`transition-transform duration-300 ease-out-strong group-hover:scale-105 ${
-            imageFit === "contain" ? "object-contain p-4" : "object-cover"
-          }`}
-        />
+        <Link href={`/producto/${slug}`} className="absolute inset-0 z-0" aria-label={name}>
+          <Image
+            src={assetPath(image)}
+            alt={name}
+            fill
+            sizes="(max-width: 768px) 50vw, 25vw"
+            className={`transition-transform duration-300 ease-out-strong group-hover:scale-105 ${
+              imageFit === "contain" ? "object-contain p-4" : "object-cover"
+            }`}
+          />
+        </Link>
         {freeShipping && (
           <div className="absolute top-2.5 left-2.5 bg-bora-dark px-2 py-[3px] text-[10px] font-semibold text-white">
             Envío gratis
@@ -102,7 +105,7 @@ export default function ProductCard({
           onClick={handleToggleFavorite}
           disabled={favLoading}
           aria-label={favorite ? "Quitar de favoritos" : "Agregar a favoritos"}
-          className="absolute top-2.5 right-2.5 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 transition-transform duration-150 ease-out-strong hover:scale-110 active:scale-90 disabled:opacity-60"
+          className="absolute top-2.5 right-2.5 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 transition-transform duration-150 ease-out-strong hover:scale-110 active:scale-90 disabled:opacity-60"
         >
           <Heart
             size={18}
@@ -112,9 +115,12 @@ export default function ProductCard({
         </button>
       </div>
 
-      <div className="mb-1 line-clamp-2 min-h-[2.6em] text-[13px] font-medium text-bora-text-dark md:text-sm">
+      <Link
+        href={`/producto/${slug}`}
+        className="mb-1 line-clamp-2 min-h-[2.6em] text-[13px] font-medium text-bora-text-dark hover:underline md:text-sm"
+      >
         {name}
-      </div>
+      </Link>
 
       {swatch && (
         <div className="mt-1 mb-2 flex gap-2">

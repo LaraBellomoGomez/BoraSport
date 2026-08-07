@@ -5,6 +5,8 @@ export interface ApparelProduct {
   slug: string;
   name: string;
   image: string;
+  /** Fotos adicionales para la galería de producto. Si falta, la galería usa solo `image`. */
+  gallery?: string[];
   gender: Gender;
   sub: Subcategory;
   /** Precio de lista, el precio real publicado (sin descuentos ficticios). */
@@ -24,6 +26,7 @@ export interface AccessoryProduct {
   slug: string;
   name: string;
   image: string;
+  gallery?: string[];
   listPrice: number;
   transferPrice: number;
   freeShipping: boolean;
@@ -48,6 +51,13 @@ export const apparelProducts: ApparelProduct[] = [
     slug: "fenix-areia",
     name: "Jersey de Ciclismo Mujer — Fénix Areia",
     image: "/assets/jersey-fenix-areia.webp",
+    gallery: [
+      "/assets/jersey-fenix-areia.webp",
+      "/assets/calza-arena-1.jpg",
+      "/assets/calza-arena-3.jpg",
+      "/assets/calza-arena-4.jpg",
+      "/assets/calza-arena-5.jpg",
+    ],
     gender: "mujer",
     sub: "jerseys",
     listPrice: 59900,
@@ -104,6 +114,7 @@ export const apparelProducts: ApparelProduct[] = [
     slug: "calca-preta",
     name: "Bermuda de Ciclismo Mujer — Calça Preta",
     image: "/assets/bermuda-calca-preta.webp",
+    gallery: ["/assets/bermuda-calca-preta.webp", "/assets/jersey-tropical-toucan.webp"],
     gender: "mujer",
     sub: "bermudas",
     listPrice: 54900,
@@ -118,6 +129,14 @@ export const apparelProducts: ApparelProduct[] = [
     slug: "calca-arena",
     name: "Bermuda de Ciclismo Mujer — Calça Arena",
     image: "/assets/bermuda-calca-arena.webp",
+    gallery: [
+      "/assets/bermuda-calca-arena.webp",
+      "/assets/calza-arena-1.jpg",
+      "/assets/calza-arena-2.jpg",
+      "/assets/calza-arena-3.jpg",
+      "/assets/calza-arena-4.jpg",
+      "/assets/calza-arena-5.jpg",
+    ],
     gender: "mujer",
     sub: "bermudas",
     listPrice: 54900,
@@ -236,3 +255,18 @@ export function findProduct(
     ? apparelProducts.find((p) => p.slug === slug)
     : accessoryProducts.find((p) => p.slug === slug);
 }
+
+export function findAnyProduct(
+  slug: string
+): { product: ApparelProduct | AccessoryProduct; type: ProductType } | undefined {
+  const apparel = apparelProducts.find((p) => p.slug === slug);
+  if (apparel) return { product: apparel, type: "apparel" };
+  const accessory = accessoryProducts.find((p) => p.slug === slug);
+  if (accessory) return { product: accessory, type: "accessory" };
+  return undefined;
+}
+
+export const allProductSlugs = [
+  ...apparelProducts.map((p) => p.slug),
+  ...accessoryProducts.map((p) => p.slug),
+];
