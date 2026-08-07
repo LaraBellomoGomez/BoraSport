@@ -10,7 +10,7 @@ export const PRICES: Record<string, { name: string; price: number }> = {
   "leoa": { name: "Bermuda de Ciclismo Mujer — Leoa", price: 54900 },
   "calca-preta": { name: "Bermuda de Ciclismo Mujer — Calça Preta", price: 54900 },
   "calca-arena": { name: "Bermuda de Ciclismo Mujer — Calça Arena", price: 54900 },
-  "fenix-preto": { name: "Jersey de Ciclismo Hombre — Fénix Preto", price: 59900 },
+  "fenix-preto": { name: "Jersey de Ciclismo Hombre — Fénix Preto", price: 1 }, // TEMP: precio de $1 para prueba real de pago — revertir a 59900
   "fenix-verde": { name: "Jersey de Ciclismo Hombre — Fénix Verde", price: 59900 },
   "selva": { name: "Bermuda de Ciclismo Hombre — Selva", price: 54900 },
   "amarela": { name: "Bermuda de Ciclismo Hombre — Amarela", price: 54900 },
