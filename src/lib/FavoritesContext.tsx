@@ -14,9 +14,8 @@ export interface FavoriteRow {
 export interface FavoriteLine extends FavoriteRow {
   name: string;
   image: string;
-  originalPrice: number;
-  finalPrice: number;
-  offPercent: number;
+  listPrice: number;
+  transferPrice: number;
 }
 
 interface FavoritesContextValue {
@@ -93,9 +92,8 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
         ...row,
         name: product.name,
         image: product.image,
-        originalPrice: product.originalPrice,
-        finalPrice: product.finalPrice,
-        offPercent: product.offPercent,
+        listPrice: product.listPrice,
+        transferPrice: product.transferPrice,
       };
     })
     .filter((line): line is FavoriteLine => line !== null);

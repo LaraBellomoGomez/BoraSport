@@ -27,6 +27,7 @@
   --color-whatsapp: var(--color-whatsapp);
   --font-sans: var(--font-jost);
   --font-heading: var(--font-space-grotesk);
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 body {

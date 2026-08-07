@@ -16,11 +16,9 @@ interface ProductCardProps {
   productType: ProductType;
   name: string;
   image: string;
-  originalPrice: number;
-  finalPrice: number;
-  offPercent: number;
-  badgeStyle?: "dark" | "bronze";
-  freeShipping?: "none" | "bottom-white" | "top-dark";
+  listPrice: number;
+  transferPrice: number;
+  freeShipping?: boolean;
   imageFit?: "cover" | "contain";
   swatch?: string;
   sizes?: string[];
@@ -31,11 +29,9 @@ export default function ProductCard({
   productType,
   name,
   image,
-  originalPrice,
-  finalPrice,
-  offPercent,
-  badgeStyle = "bronze",
-  freeShipping = "none",
+  listPrice,
+  transferPrice,
+  freeShipping = false,
   imageFit = "cover",
   swatch,
   sizes,
@@ -84,31 +80,19 @@ export default function ProductCard({
   }
 
   return (
-    <div className="flex h-full flex-col">
-      <div className="relative mb-2.5 w-full overflow-hidden rounded bg-bora-card-bg pt-[133.33%]">
+    <div className="group flex h-full flex-col">
+      <div className="relative mb-2.5 w-full overflow-hidden rounded bg-bora-card-bg pt-[133.33%] transition-shadow duration-200 ease-out-strong group-hover:shadow-lg">
         <Image
           src={assetPath(image)}
           alt={name}
           fill
           sizes="(max-width: 768px) 50vw, 25vw"
-          className={imageFit === "contain" ? "object-contain p-4" : "object-cover"}
-        />
-        <div
-          className={`absolute top-2.5 left-2.5 rounded px-2 py-1 text-[11px] font-bold ${
-            badgeStyle === "dark"
-              ? "bg-bora-dark text-white"
-              : "bg-bora-bronze text-bora-dark"
+          className={`transition-transform duration-300 ease-out-strong group-hover:scale-105 ${
+            imageFit === "contain" ? "object-contain p-4" : "object-cover"
           }`}
-        >
-          {offPercent}% OFF
-        </div>
-        {freeShipping === "top-dark" && (
-          <div className="absolute top-11 left-2.5 bg-bora-dark px-2 py-[3px] text-[10px] font-semibold text-white">
-            Envío gratis
-          </div>
-        )}
-        {freeShipping === "bottom-white" && (
-          <div className="absolute bottom-2.5 left-2.5 bg-white px-2 py-[3px] text-[10px] font-semibold text-bora-text-body">
+        />
+        {freeShipping && (
+          <div className="absolute top-2.5 left-2.5 bg-bora-dark px-2 py-[3px] text-[10px] font-semibold text-white">
             Envío gratis
           </div>
         )}
@@ -117,10 +101,10 @@ export default function ProductCard({
           onClick={handleToggleFavorite}
           disabled={favLoading}
           aria-label={favorite ? "Quitar de favoritos" : "Agregar a favoritos"}
-          className="absolute top-2.5 right-2.5 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 disabled:opacity-60"
+          className="absolute top-2.5 right-2.5 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 transition-transform duration-150 ease-out-strong hover:scale-110 active:scale-90 disabled:opacity-60"
         >
           <Heart
-            size={16}
+            size={18}
             color={favorite ? "#e0455c" : "#404040"}
             fill={favorite ? "#e0455c" : "none"}
           />
@@ -131,17 +115,8 @@ export default function ProductCard({
         {name}
       </div>
 
-      <div className="mb-1 flex items-baseline gap-2 text-[13px]">
-        <span className="text-bora-text-body/70 line-through">
-          {formatARS(originalPrice)}
-        </span>
-        <span className="text-base font-bold text-bora-text-dark">
-          {formatARS(finalPrice)}
-        </span>
-      </div>
-
       {swatch && (
-        <div className="mt-2.5 mb-2.5 flex gap-2">
+        <div className="mt-1 mb-2 flex gap-2">
           <span
             className="h-[22px] w-[22px] rounded-full border border-neutral-300"
             style={{ background: swatch }}
@@ -159,7 +134,7 @@ export default function ProductCard({
                 setSelectedSize(size);
                 setMessage(null);
               }}
-              className="cursor-pointer rounded border px-2.5 py-1 text-xs font-medium transition-colors"
+              className="cursor-pointer rounded border px-2.5 py-1 text-xs font-medium transition-[color,background-color,border-color,transform] duration-150 ease-out-strong active:scale-90"
               style={
                 selectedSize === size
                   ? {
@@ -176,13 +151,20 @@ export default function ProductCard({
         </div>
       )}
 
+      <div className="mb-1 text-base font-bold text-bora-text-dark">
+        {formatARS(listPrice)}
+      </div>
+      <div className="mb-1 text-[11px] font-semibold text-bora-text-dark">
+        10% OFF por transferencia: {formatARS(transferPrice)}
+      </div>
+
       <div className="flex-1" />
 
       <button
         type="button"
         onClick={handleAddToCart}
         disabled={status === "adding"}
-        className="flex w-full items-center justify-center gap-1.5 rounded bg-bora-dark py-2.5 text-xs font-bold tracking-wide text-white uppercase transition-opacity hover:opacity-85 disabled:opacity-60"
+        className="flex w-full items-center justify-center gap-1.5 rounded bg-bora-dark py-2.5 text-xs font-bold tracking-wide text-white uppercase transition-[opacity,transform] duration-150 ease-out-strong hover:opacity-85 active:scale-[0.97] disabled:opacity-60 disabled:active:scale-100"
       >
         {status === "added" ? (
           <>

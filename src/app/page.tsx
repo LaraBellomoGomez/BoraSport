@@ -138,11 +138,9 @@ export default function HomePage() {
               productType="apparel"
               name={product.name}
               image={product.image}
-              originalPrice={product.originalPrice}
-              finalPrice={product.finalPrice}
-              offPercent={product.offPercent}
-              badgeStyle="dark"
-              freeShipping="bottom-white"
+              listPrice={product.listPrice}
+              transferPrice={product.transferPrice}
+              freeShipping
               sizes={product.sizes}
             />
           ))}

@@ -56,11 +56,9 @@ export default function FavoritosPage() {
                   productType={line.product_type}
                   name={product.name}
                   image={product.image}
-                  originalPrice={product.originalPrice}
-                  finalPrice={product.finalPrice}
-                  offPercent={product.offPercent}
-                  badgeStyle="bronze"
-                  freeShipping={product.freeShipping ? "top-dark" : "none"}
+                  listPrice={product.listPrice}
+                  transferPrice={product.transferPrice}
+                  freeShipping={product.freeShipping}
                   imageFit={isApparel ? "cover" : "contain"}
                   swatch={isApparel ? product.swatch : undefined}
                   sizes={isApparel ? product.sizes : undefined}

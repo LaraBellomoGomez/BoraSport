@@ -95,7 +95,7 @@ export default function CarritoPage() {
                         </button>
                       </div>
                       <span className="text-sm font-bold text-bora-text-dark">
-                        {formatARS(line.finalPrice * line.quantity)}
+                        {formatARS(line.listPrice * line.quantity)}
                       </span>
                     </div>
                   </div>
@@ -118,6 +118,10 @@ export default function CarritoPage() {
                 {formatARS(subtotal)}
               </span>
             </div>
+            <p className="mt-2 text-right text-xs text-bora-text-body">
+              Abonando por transferencia bancaria obtenés un 10% de descuento sobre el precio
+              publicado.
+            </p>
 
             <Link
               href="/checkout"

@@ -101,11 +101,9 @@ export default function GenderListing({ gender, title }: { gender: Gender; title
               productType="apparel"
               name={product.name}
               image={product.image}
-              originalPrice={product.originalPrice}
-              finalPrice={product.finalPrice}
-              offPercent={product.offPercent}
-              badgeStyle="bronze"
-              freeShipping="top-dark"
+              listPrice={product.listPrice}
+              transferPrice={product.transferPrice}
+              freeShipping
               sizes={product.sizes}
             />
           ))}

@@ -7,9 +7,10 @@ export interface ApparelProduct {
   image: string;
   gender: Gender;
   sub: Subcategory;
-  originalPrice: number;
-  finalPrice: number;
-  offPercent: number;
+  /** Precio de lista, el precio real publicado (sin descuentos ficticios). */
+  listPrice: number;
+  /** Precio final abonando por transferencia bancaria (10% off), informativo. */
+  transferPrice: number;
   freeShipping: boolean;
   swatch: string;
   sizes: string[];
@@ -23,9 +24,8 @@ export interface AccessoryProduct {
   slug: string;
   name: string;
   image: string;
-  originalPrice: number;
-  finalPrice: number;
-  offPercent: number;
+  listPrice: number;
+  transferPrice: number;
   freeShipping: boolean;
 }
 
@@ -36,9 +36,8 @@ export const apparelProducts: ApparelProduct[] = [
     image: "/assets/jersey-wild-leopard.webp",
     gender: "mujer",
     sub: "jerseys",
-    originalPrice: 60200,
-    finalPrice: 40900,
-    offPercent: 32,
+    listPrice: 64900,
+    transferPrice: 58400,
     freeShipping: true,
     swatch: "linear-gradient(135deg,#c9922f,#151515)",
     sizes: ["S", "M", "L", "XL"],
@@ -51,9 +50,8 @@ export const apparelProducts: ApparelProduct[] = [
     image: "/assets/jersey-fenix-areia.webp",
     gender: "mujer",
     sub: "jerseys",
-    originalPrice: 52900,
-    finalPrice: 35600,
-    offPercent: 33,
+    listPrice: 59900,
+    transferPrice: 53900,
     freeShipping: true,
     swatch: "#a89a95",
     sizes: ["S", "M", "L", "XL"],
@@ -66,9 +64,8 @@ export const apparelProducts: ApparelProduct[] = [
     image: "/assets/jersey-fenix-dourada.webp",
     gender: "mujer",
     sub: "jerseys",
-    originalPrice: 52900,
-    finalPrice: 35600,
-    offPercent: 33,
+    listPrice: 59900,
+    transferPrice: 53900,
     freeShipping: true,
     swatch: "#c9922f",
     sizes: ["S", "M", "L", "XL"],
@@ -81,9 +78,8 @@ export const apparelProducts: ApparelProduct[] = [
     image: "/assets/jersey-tropical-toucan.webp",
     gender: "mujer",
     sub: "jerseys",
-    originalPrice: 60200,
-    finalPrice: 40900,
-    offPercent: 32,
+    listPrice: 54900,
+    transferPrice: 49400,
     freeShipping: true,
     swatch: "#151515",
     sizes: ["S", "M", "L", "XL"],
@@ -96,9 +92,8 @@ export const apparelProducts: ApparelProduct[] = [
     image: "/assets/jersey-bermuda-leoa.webp",
     gender: "mujer",
     sub: "bermudas",
-    originalPrice: 53600,
-    finalPrice: 39000,
-    offPercent: 27,
+    listPrice: 54900,
+    transferPrice: 49400,
     freeShipping: true,
     swatch: "linear-gradient(135deg,#8a6d3b,#3d2f1a)",
     sizes: ["S", "M", "L", "XL"],
@@ -111,9 +106,8 @@ export const apparelProducts: ApparelProduct[] = [
     image: "/assets/bermuda-calca-preta.webp",
     gender: "mujer",
     sub: "bermudas",
-    originalPrice: 53600,
-    finalPrice: 39000,
-    offPercent: 27,
+    listPrice: 54900,
+    transferPrice: 49400,
     freeShipping: true,
     swatch: "#141414",
     sizes: ["S", "M", "L", "XL"],
@@ -126,9 +120,8 @@ export const apparelProducts: ApparelProduct[] = [
     image: "/assets/bermuda-calca-arena.webp",
     gender: "mujer",
     sub: "bermudas",
-    originalPrice: 54000,
-    finalPrice: 39000,
-    offPercent: 28,
+    listPrice: 54900,
+    transferPrice: 49400,
     freeShipping: true,
     swatch: "#d9c6a5",
     sizes: ["S", "M", "L", "XL"],
@@ -141,9 +134,8 @@ export const apparelProducts: ApparelProduct[] = [
     image: "/assets/jersey-fenix-preto.webp",
     gender: "hombre",
     sub: "jerseys",
-    originalPrice: 52900,
-    finalPrice: 1, // TEMP: precio de $1 para prueba real de pago — revertir a 37500
-    offPercent: 29,
+    listPrice: 59900,
+    transferPrice: 53900,
     freeShipping: true,
     swatch: "#151515",
     sizes: ["S", "M", "L", "XL"],
@@ -156,9 +148,8 @@ export const apparelProducts: ApparelProduct[] = [
     image: "/assets/jersey-fenix-verde.webp",
     gender: "hombre",
     sub: "jerseys",
-    originalPrice: 52900,
-    finalPrice: 37500,
-    offPercent: 29,
+    listPrice: 59900,
+    transferPrice: 53900,
     freeShipping: true,
     swatch: "#5a6b5f",
     sizes: ["S", "M", "L", "XL"],
@@ -171,9 +162,8 @@ export const apparelProducts: ApparelProduct[] = [
     image: "/assets/bermuda-selva.webp",
     gender: "hombre",
     sub: "bermudas",
-    originalPrice: 53600,
-    finalPrice: 39000,
-    offPercent: 27,
+    listPrice: 54900,
+    transferPrice: 49400,
     freeShipping: true,
     swatch: "linear-gradient(135deg,#3d5a2d,#1c2b12)",
     sizes: ["S", "M", "L", "XL"],
@@ -186,9 +176,8 @@ export const apparelProducts: ApparelProduct[] = [
     image: "/assets/bermuda-amarela.webp",
     gender: "hombre",
     sub: "bermudas",
-    originalPrice: 53600,
-    finalPrice: 39000,
-    offPercent: 27,
+    listPrice: 54900,
+    transferPrice: 49400,
     freeShipping: true,
     swatch: "#e0b323",
     sizes: ["S", "M", "L", "XL"],
@@ -202,27 +191,24 @@ export const accessoryProducts: AccessoryProduct[] = [
     slug: "full-protection",
     name: "Funda Full Protection — Cobertor Completo para Bicicleta",
     image: "/assets/funda-full-protection.webp",
-    originalPrice: 51900,
-    finalPrice: 45900,
-    offPercent: 12,
+    listPrice: 59900,
+    transferPrice: 53900,
     freeShipping: false,
   },
   {
     slug: "wild-spectrum",
     name: "Funda Wild Spectrum — Cubre Ruedas para Bicicleta",
     image: "/assets/funda-wild-spectrum.webp",
-    originalPrice: 45900,
-    finalPrice: 41500,
-    offPercent: 10,
+    listPrice: 44900,
+    transferPrice: 40400,
     freeShipping: true,
   },
   {
     slug: "jungle-velocity",
     name: "Funda Jungle Velocity — Cubre Ruedas para Bicicleta",
     image: "/assets/funda-jungle-velocity.webp",
-    originalPrice: 45900,
-    finalPrice: 41500,
-    offPercent: 10,
+    listPrice: 44900,
+    transferPrice: 40400,
     freeShipping: true,
   },
 ];

@@ -16,7 +16,7 @@ export interface CartRow {
 export interface CartLine extends CartRow {
   name: string;
   image: string;
-  finalPrice: number;
+  listPrice: number;
 }
 
 interface CartContextValue {
@@ -121,13 +121,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         ...row,
         name: product.name,
         image: product.image,
-        finalPrice: product.finalPrice,
+        listPrice: product.listPrice,
       };
     })
     .filter((line): line is CartLine => line !== null);
 
   const count = lines.reduce((sum, l) => sum + l.quantity, 0);
-  const subtotal = lines.reduce((sum, l) => sum + l.finalPrice * l.quantity, 0);
+  const subtotal = lines.reduce((sum, l) => sum + l.listPrice * l.quantity, 0);
 
   return (
     <CartContext.Provider
