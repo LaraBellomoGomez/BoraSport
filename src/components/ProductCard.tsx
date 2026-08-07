@@ -154,7 +154,7 @@ export default function ProductCard({
       <div className="mb-1 text-base font-bold text-bora-text-dark">
         {formatARS(listPrice)}
       </div>
-      <div className="mb-1 text-[11px] font-semibold text-bora-text-dark">
+      <div className="mb-1 text-[11px] font-bold text-[#e0455c]">
         10% OFF por transferencia: {formatARS(transferPrice)}
       </div>
 

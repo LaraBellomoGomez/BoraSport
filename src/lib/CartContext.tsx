@@ -19,11 +19,21 @@ export interface CartLine extends CartRow {
   listPrice: number;
 }
 
+export interface LastAdded {
+  name: string;
+  image: string;
+  size: string | null;
+  quantity: number;
+  listPrice: number;
+}
+
 interface CartContextValue {
   lines: CartLine[];
   count: number;
   subtotal: number;
   loading: boolean;
+  lastAdded: LastAdded | null;
+  clearLastAdded: () => void;
   addToCart: (
     productSlug: string,
     productType: ProductType,
@@ -39,6 +49,8 @@ const CartContext = createContext<CartContextValue>({
   count: 0,
   subtotal: 0,
   loading: true,
+  lastAdded: null,
+  clearLastAdded: () => {},
   addToCart: async () => ({ error: "not-ready" }),
   updateQuantity: async () => {},
   removeFromCart: async () => {},
@@ -48,6 +60,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
   const [rows, setRows] = useState<CartRow[]>([]);
   const [loading, setLoading] = useState(true);
+  const [lastAdded, setLastAdded] = useState<LastAdded | null>(null);
 
   const refresh = useCallback(async () => {
     if (!user) {
@@ -77,6 +90,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   ) {
     if (!user) return { error: "not-authenticated" };
 
+    const product = findProduct(productSlug, productType);
+    if (!product) return { error: "product-not-found" };
+
     const existing = rows.find(
       (r) => r.product_slug === productSlug && r.size === size
     );
@@ -99,7 +115,18 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
 
     await refresh();
+    setLastAdded({
+      name: product.name,
+      image: product.image,
+      size,
+      quantity,
+      listPrice: product.listPrice,
+    });
     return { error: null };
+  }
+
+  function clearLastAdded() {
+    setLastAdded(null);
   }
 
   async function updateQuantity(id: number, quantity: number) {
@@ -131,7 +158,17 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <CartContext.Provider
-      value={{ lines, count, subtotal, loading, addToCart, updateQuantity, removeFromCart }}
+      value={{
+        lines,
+        count,
+        subtotal,
+        loading,
+        lastAdded,
+        clearLastAdded,
+        addToCart,
+        updateQuantity,
+        removeFromCart,
+      }}
     >
       {children}
     </CartContext.Provider>

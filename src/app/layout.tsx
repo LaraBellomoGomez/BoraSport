@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Jost, Space_Grotesk } from "next/font/google";
+import AddedToCartModal from "@/components/AddedToCartModal";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { AuthProvider } from "@/lib/AuthContext";
 import { CartProvider } from "@/lib/CartContext";
@@ -40,6 +41,7 @@ export default function RootLayout({
             <FavoritesProvider>
               {children}
               <WhatsAppButton />
+              <AddedToCartModal />
             </FavoritesProvider>
           </CartProvider>
         </AuthProvider>

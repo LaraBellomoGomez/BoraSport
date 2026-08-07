@@ -34,14 +34,18 @@ export default function Header() {
     <>
       <PromoBar />
       <header className="sticky top-0 z-50 border-b border-bora-border bg-[color:var(--color-bora-on-dark)]">
-        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 px-5 py-3">
-          <Link href="/" className="flex-none justify-self-start" onClick={() => setOpen(false)}>
+        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 px-5 py-2">
+          <Link
+            href="/"
+            className="relative inline-block aspect-[1536/750] h-9 flex-none justify-self-start overflow-hidden md:h-11"
+            onClick={() => setOpen(false)}
+          >
             <Image
               src={assetPath("/assets/logo.definitivo.png")}
               alt="Bora Sports"
-              width={132}
-              height={88}
-              className="h-16 w-auto object-contain md:h-[88px]"
+              fill
+              sizes="150px"
+              className="object-cover object-top"
               priority
             />
           </Link>
