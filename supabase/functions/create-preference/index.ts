@@ -36,6 +36,34 @@ Deno.serve(async (req) => {
       return json({ error: "No autenticado" }, 401);
     }
 
+    let shipping: {
+      name?: string;
+      phone?: string;
+      address?: string;
+      city?: string;
+      province?: string;
+      postalCode?: string;
+    } = {};
+    try {
+      const body = await req.json();
+      if (body?.shipping) shipping = body.shipping;
+    } catch {
+      // no body sent — shouldn't happen since checkout always sends shipping
+    }
+
+    const requiredShippingFields: Array<keyof typeof shipping> = [
+      "name",
+      "phone",
+      "address",
+      "city",
+      "province",
+      "postalCode",
+    ];
+    const missingField = requiredShippingFields.find((field) => !shipping[field]?.trim());
+    if (missingField) {
+      return json({ error: "Faltan datos de envío" }, 400);
+    }
+
     const { data: cartItems, error: cartError } = await userClient
       .from("cart_items")
       .select("product_slug, size, quantity")
@@ -75,6 +103,12 @@ Deno.serve(async (req) => {
         items: cartItems,
         total,
         status: "pending",
+        shipping_name: shipping.name,
+        shipping_phone: shipping.phone,
+        shipping_address: shipping.address,
+        shipping_city: shipping.city,
+        shipping_province: shipping.province,
+        shipping_postal_code: shipping.postalCode,
       })
       .select("id")
       .single();

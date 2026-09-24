@@ -3,6 +3,9 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const MP_ACCESS_TOKEN = Deno.env.get("MP_ACCESS_TOKEN")!;
+const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY")!;
+const CONTACT_EMAIL = Deno.env.get("CONTACT_EMAIL") ?? "borasportsinfo@gmail.com";
+const FROM_ADDRESS = "Bora Sports <onboarding@resend.dev>";
 
 const STATUS_MAP: Record<string, string> = {
   approved: "paid",
@@ -12,6 +15,25 @@ const STATUS_MAP: Record<string, string> = {
   pending: "pending",
   in_process: "pending",
 };
+
+interface OrderItem {
+  product_slug: string;
+  size: string | null;
+  quantity: number;
+}
+
+interface OrderRow {
+  id: number;
+  user_id: string;
+  items: OrderItem[];
+  total: number;
+  shipping_name: string | null;
+  shipping_phone: string | null;
+  shipping_address: string | null;
+  shipping_city: string | null;
+  shipping_province: string | null;
+  shipping_postal_code: string | null;
+}
 
 Deno.serve(async (req) => {
   try {
@@ -45,11 +67,16 @@ Deno.serve(async (req) => {
       .from("orders")
       .update({ status, mp_payment_id: String(payment.id) })
       .eq("id", orderId)
-      .select("user_id")
-      .single();
+      .select(
+        "id, user_id, items, total, shipping_name, shipping_phone, shipping_address, shipping_city, shipping_province, shipping_postal_code"
+      )
+      .single<OrderRow>();
 
-    if (status === "paid" && order?.user_id) {
+    if (status === "paid" && order) {
       await admin.from("cart_items").delete().eq("user_id", order.user_id);
+      await sendOrderEmails(admin, order).catch((err) =>
+        console.error("Failed to send order emails:", err)
+      );
     }
 
     return new Response("ok", { status: 200 });
@@ -58,3 +85,112 @@ Deno.serve(async (req) => {
     return new Response("ok", { status: 200 });
   }
 });
+
+async function sendOrderEmails(
+  admin: ReturnType<typeof createClient>,
+  order: OrderRow
+) {
+  const { data: userData } = await admin.auth.admin.getUserById(order.user_id);
+  const buyerEmail = userData?.user?.email ?? null;
+
+  // Product names aren't stored on the order row (only slug/size/qty), so
+  // pull the current catalog to render readable item lines. If a product
+  // was since removed, fall back to the slug itself.
+  const { PRICES } = await import("../_shared/prices.ts");
+
+  const itemLines = order.items
+    .map((item) => {
+      const product = PRICES[item.product_slug];
+      const name = product?.name ?? item.product_slug;
+      const sizeLabel = item.size ? ` — Talle ${item.size}` : "";
+      return `<li>${item.quantity} x ${escapeHtml(name)}${escapeHtml(sizeLabel)}</li>`;
+    })
+    .join("");
+
+  const shippingBlock = `
+    <p><strong>Nombre:</strong> ${escapeHtml(order.shipping_name ?? "-")}</p>
+    <p><strong>Teléfono:</strong> ${escapeHtml(order.shipping_phone ?? "-")}</p>
+    <p><strong>Dirección:</strong> ${escapeHtml(order.shipping_address ?? "-")}</p>
+    <p><strong>Localidad:</strong> ${escapeHtml(order.shipping_city ?? "-")}, ${escapeHtml(order.shipping_province ?? "-")}</p>
+    <p><strong>Código postal:</strong> ${escapeHtml(order.shipping_postal_code ?? "-")}</p>
+  `;
+
+  const totalLabel = formatARS(order.total);
+
+  // Email to the buyer — confirms the order, no tracking number yet (that
+  // goes out separately from /pedidos once the package is dispatched).
+  if (buyerEmail) {
+    await sendEmail({
+      to: buyerEmail,
+      subject: `Confirmamos tu pedido #${order.id} — Bora Sports`,
+      html: `
+        <p>¡Gracias por tu compra!</p>
+        <p>Confirmamos tu pedido <strong>#${order.id}</strong> por un total de <strong>${totalLabel}</strong>.</p>
+        <p><strong>Productos:</strong></p>
+        <ul>${itemLines}</ul>
+        <p><strong>Enviamos a:</strong></p>
+        ${shippingBlock}
+        <p>Te vamos a mandar otro mail con el número de seguimiento de Correo Argentino apenas despachemos tu pedido.</p>
+        <p>Cualquier consulta, escribinos por WhatsApp.</p>
+      `,
+    });
+  }
+
+  // Email to the business — full order detail so it can be prepared/shipped.
+  await sendEmail({
+    to: CONTACT_EMAIL,
+    subject: `Nuevo pedido pago #${order.id}`,
+    html: `
+      <p>Nuevo pedido pago por <strong>${totalLabel}</strong>.</p>
+      <p><strong>Comprador:</strong> ${escapeHtml(buyerEmail ?? "sin email")}</p>
+      <p><strong>Productos:</strong></p>
+      <ul>${itemLines}</ul>
+      <p><strong>Enviar a:</strong></p>
+      ${shippingBlock}
+      <p>Cuando despaches el pedido, cargá el número de seguimiento en la sección "Pedidos" del sitio para avisarle al comprador.</p>
+    `,
+  });
+}
+
+async function sendEmail({
+  to,
+  subject,
+  html,
+}: {
+  to: string;
+  subject: string;
+  html: string;
+}) {
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${RESEND_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: FROM_ADDRESS,
+      to: [to],
+      subject,
+      html,
+    }),
+  });
+  if (!res.ok) {
+    const data = await res.json().catch(() => null);
+    console.error("Resend rejected an order email:", res.status, data);
+  }
+}
+
+function formatARS(value: number): string {
+  return `$${value.toLocaleString("es-AR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`;
+}
+
+function escapeHtml(str: string) {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
