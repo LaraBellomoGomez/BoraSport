@@ -8,6 +8,12 @@ const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const MP_ACCESS_TOKEN = Deno.env.get("MP_ACCESS_TOKEN")!;
 const FALLBACK_SITE_URL = "https://www.borasports.com.ar";
 
+// Promo del banner: "20% OFF comprando 3 o más prendas". Debe coincidir con
+// PROMO_MIN_ITEMS / PROMO_DISCOUNT_RATE en src/lib/CartContext.tsx, que es
+// lo que se muestra en el carrito.
+const PROMO_MIN_ITEMS = 3;
+const PROMO_DISCOUNT_RATE = 0.2;
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
@@ -40,15 +46,21 @@ Deno.serve(async (req) => {
       return json({ error: "El carrito está vacío" }, 400);
     }
 
+    const totalQuantity = cartItems.reduce((sum, row) => sum + row.quantity, 0);
+    const promoActive = totalQuantity >= PROMO_MIN_ITEMS;
+
     const items = cartItems.map((row) => {
       const product = PRICES[row.product_slug];
       if (!product) {
         throw new Error(`Producto desconocido: ${row.product_slug}`);
       }
+      const unitPrice = promoActive
+        ? Math.round(product.price * (1 - PROMO_DISCOUNT_RATE))
+        : product.price;
       return {
         title: row.size ? `${product.name} (Talle ${row.size})` : product.name,
         quantity: row.quantity,
-        unit_price: product.price,
+        unit_price: unitPrice,
         currency_id: "ARS",
       };
     });

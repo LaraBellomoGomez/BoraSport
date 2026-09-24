@@ -27,9 +27,19 @@ export interface LastAdded {
   listPrice: number;
 }
 
+// Promo del banner: "20% OFF comprando 3 o más prendas". Debe coincidir con
+// PROMO_MIN_ITEMS / PROMO_DISCOUNT_RATE en
+// supabase/functions/create-preference/index.ts, que es lo que realmente
+// se cobra.
+export const PROMO_MIN_ITEMS = 3;
+export const PROMO_DISCOUNT_RATE = 0.2;
+
 interface CartContextValue {
   lines: CartLine[];
   count: number;
+  rawSubtotal: number;
+  promoActive: boolean;
+  promoDiscount: number;
   subtotal: number;
   loading: boolean;
   lastAdded: LastAdded | null;
@@ -47,6 +57,9 @@ interface CartContextValue {
 const CartContext = createContext<CartContextValue>({
   lines: [],
   count: 0,
+  rawSubtotal: 0,
+  promoActive: false,
+  promoDiscount: 0,
   subtotal: 0,
   loading: true,
   lastAdded: null,
@@ -154,13 +167,19 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     .filter((line): line is CartLine => line !== null);
 
   const count = lines.reduce((sum, l) => sum + l.quantity, 0);
-  const subtotal = lines.reduce((sum, l) => sum + l.listPrice * l.quantity, 0);
+  const rawSubtotal = lines.reduce((sum, l) => sum + l.listPrice * l.quantity, 0);
+  const promoActive = count >= PROMO_MIN_ITEMS;
+  const promoDiscount = promoActive ? Math.round(rawSubtotal * PROMO_DISCOUNT_RATE) : 0;
+  const subtotal = rawSubtotal - promoDiscount;
 
   return (
     <CartContext.Provider
       value={{
         lines,
         count,
+        rawSubtotal,
+        promoActive,
+        promoDiscount,
         subtotal,
         loading,
         lastAdded,

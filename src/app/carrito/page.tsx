@@ -8,14 +8,24 @@ import { Minus, Plus, Trash2 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useAuth } from "@/lib/AuthContext";
-import { useCart } from "@/lib/CartContext";
+import { PROMO_MIN_ITEMS, useCart } from "@/lib/CartContext";
 import { assetPath } from "@/lib/basePath";
 import { formatARS } from "@/lib/format";
 
 export default function CarritoPage() {
   const router = useRouter();
   const { user, loading: authLoading } = useAuth();
-  const { lines, subtotal, loading, updateQuantity, removeFromCart } = useCart();
+  const {
+    lines,
+    count,
+    rawSubtotal,
+    promoActive,
+    promoDiscount,
+    subtotal,
+    loading,
+    updateQuantity,
+    removeFromCart,
+  } = useCart();
 
   useEffect(() => {
     if (!authLoading && !user) router.replace("/login");
@@ -115,12 +125,37 @@ export default function CarritoPage() {
             <div className="mt-8 flex items-center justify-between border-t border-neutral-200 pt-6">
               <span className="text-base font-semibold text-bora-text-dark">Subtotal</span>
               <span className="text-xl font-extrabold text-bora-text-dark">
-                {formatARS(subtotal)}
+                {formatARS(rawSubtotal)}
               </span>
             </div>
+
+            {promoActive ? (
+              <>
+                <div className="mt-2 flex items-center justify-between">
+                  <span className="text-sm font-bold text-[#25d366]">
+                    20% OFF por 3 o más prendas
+                  </span>
+                  <span className="text-sm font-bold text-[#25d366]">
+                    -{formatARS(promoDiscount)}
+                  </span>
+                </div>
+                <div className="mt-2 flex items-center justify-between border-t border-neutral-200 pt-3">
+                  <span className="text-base font-bold text-bora-text-dark">Total</span>
+                  <span className="text-xl font-extrabold text-bora-text-dark">
+                    {formatARS(subtotal)}
+                  </span>
+                </div>
+              </>
+            ) : (
+              <p className="mt-2 text-right text-xs font-bold text-[#25d366]">
+                Agregá {PROMO_MIN_ITEMS - count} producto{PROMO_MIN_ITEMS - count === 1 ? "" : "s"}{" "}
+                más y obtenés 20% OFF en todo el carrito.
+              </p>
+            )}
+
             <p className="mt-2 text-right text-xs font-bold text-[#e0455c]">
-              Abonando por transferencia bancaria obtenés un 10% de descuento sobre el precio
-              publicado.
+              Abonando por transferencia bancaria obtenés un 10% de descuento adicional sobre el
+              total.
             </p>
 
             <Link

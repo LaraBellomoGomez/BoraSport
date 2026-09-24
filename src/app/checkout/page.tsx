@@ -13,7 +13,8 @@ import { supabase } from "@/lib/supabase";
 export default function CheckoutPage() {
   const router = useRouter();
   const { user, loading: authLoading } = useAuth();
-  const { lines, subtotal, loading: cartLoading } = useCart();
+  const { lines, rawSubtotal, promoActive, promoDiscount, subtotal, loading: cartLoading } =
+    useCart();
   const [paying, setPaying] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -72,13 +73,22 @@ export default function CheckoutPage() {
           </>
         ) : (
           <>
-            <p className="mb-8 text-bora-text-body">
+            <p className={promoActive ? "mb-2 text-bora-text-body" : "mb-8 text-bora-text-body"}>
               {(() => {
                 const totalUnits = lines.reduce((sum, l) => sum + l.quantity, 0);
                 return `${totalUnits} ${totalUnits === 1 ? "unidad" : "unidades"}`;
               })()}{" "}
-              por <strong className="text-bora-text-dark">{formatARS(subtotal)}</strong>
+              por{" "}
+              <strong className="text-bora-text-dark">
+                {formatARS(promoActive ? rawSubtotal : subtotal)}
+              </strong>
             </p>
+            {promoActive && (
+              <p className="mb-8 text-sm font-bold text-[#25d366]">
+                20% OFF por 3 o más prendas (-{formatARS(promoDiscount)}) — Total:{" "}
+                {formatARS(subtotal)}
+              </p>
+            )}
 
             {error && <p className="mb-4 text-sm text-red-600">{error}</p>}
 
