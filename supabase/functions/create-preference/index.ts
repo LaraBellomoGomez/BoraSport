@@ -109,6 +109,9 @@ Deno.serve(async (req) => {
         shipping_city: shipping.city,
         shipping_province: shipping.province,
         shipping_postal_code: shipping.postalCode,
+        status_history: [
+          { status: "pending", label: "Pedido creado", at: new Date().toISOString() },
+        ],
       })
       .select("id")
       .single();

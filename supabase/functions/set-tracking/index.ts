@@ -24,9 +24,24 @@ Deno.serve(async (req) => {
 
     const admin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
+    const { data: existing } = await admin
+      .from("orders")
+      .select("status_history")
+      .eq("id", orderId)
+      .single<{ status_history: Array<{ status: string; label: string; at: string }> }>();
+
+    const updatedHistory = [
+      ...(existing?.status_history ?? []),
+      { status: "shipped", label: "Pedido despachado", at: new Date().toISOString() },
+    ];
+
     const { data: order, error } = await admin
       .from("orders")
-      .update({ tracking_number: trackingNumber, shipped_at: new Date().toISOString() })
+      .update({
+        tracking_number: trackingNumber,
+        shipped_at: new Date().toISOString(),
+        status_history: updatedHistory,
+      })
       .eq("id", orderId)
       .select("id, user_id")
       .single();

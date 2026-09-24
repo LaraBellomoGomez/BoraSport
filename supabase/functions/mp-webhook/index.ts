@@ -6,6 +6,9 @@ const MP_ACCESS_TOKEN = Deno.env.get("MP_ACCESS_TOKEN")!;
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY")!;
 const CONTACT_EMAIL = Deno.env.get("CONTACT_EMAIL") ?? "borasportsinfo@gmail.com";
 const FROM_ADDRESS = "Bora Sports <onboarding@resend.dev>";
+// TODO: switch to the custom domain once www.borasports.com.ar is repointed
+// away from the old Tiendanube store.
+const SITE_URL = "https://larabellomogomez.github.io/BoraSport";
 
 const STATUS_MAP: Record<string, string> = {
   approved: "paid",
@@ -14,6 +17,13 @@ const STATUS_MAP: Record<string, string> = {
   refunded: "cancelled",
   pending: "pending",
   in_process: "pending",
+};
+
+const STATUS_LABEL: Record<string, string> = {
+  paid: "Pago recibido",
+  failed: "Pago rechazado",
+  cancelled: "Pedido cancelado",
+  pending: "Pago pendiente",
 };
 
 interface OrderItem {
@@ -27,6 +37,8 @@ interface OrderRow {
   user_id: string;
   items: OrderItem[];
   total: number;
+  status_history: Array<{ status: string; label: string; at: string }>;
+  access_token: string;
   shipping_name: string | null;
   shipping_phone: string | null;
   shipping_address: string | null;
@@ -63,12 +75,24 @@ Deno.serve(async (req) => {
 
     const admin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
+    const { data: existing } = await admin
+      .from("orders")
+      .select("status_history")
+      .eq("id", orderId)
+      .single<{ status_history: OrderRow["status_history"] }>();
+
+    const history = existing?.status_history ?? [];
+    const updatedHistory = [
+      ...history,
+      { status, label: STATUS_LABEL[status] ?? status, at: new Date().toISOString() },
+    ];
+
     const { data: order } = await admin
       .from("orders")
-      .update({ status, mp_payment_id: String(payment.id) })
+      .update({ status, mp_payment_id: String(payment.id), status_history: updatedHistory })
       .eq("id", orderId)
       .select(
-        "id, user_id, items, total, shipping_name, shipping_phone, shipping_address, shipping_city, shipping_province, shipping_postal_code"
+        "id, user_id, items, total, status_history, access_token, shipping_name, shipping_phone, shipping_address, shipping_city, shipping_province, shipping_postal_code"
       )
       .single<OrderRow>();
 
@@ -116,6 +140,7 @@ async function sendOrderEmails(
   `;
 
   const totalLabel = formatARS(order.total);
+  const trackingPageUrl = `${SITE_URL}/seguimiento?pedido=${order.access_token}`;
 
   // Email to the buyer — confirms the order, no tracking number yet (that
   // goes out separately from /pedidos once the package is dispatched).
@@ -131,6 +156,7 @@ async function sendOrderEmails(
         <p><strong>Enviamos a:</strong></p>
         ${shippingBlock}
         <p>Te vamos a mandar otro mail con el número de seguimiento de Correo Argentino apenas despachemos tu pedido.</p>
+        <p>Podés seguir el estado de tu pedido en cualquier momento acá: <a href="${trackingPageUrl}">${trackingPageUrl}</a></p>
         <p>Cualquier consulta, escribinos por WhatsApp.</p>
       `,
     });

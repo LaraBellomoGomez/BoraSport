@@ -11,33 +11,38 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { password } = await req.json();
+    const { password, orderId } = await req.json();
     if (!password || password !== ADMIN_PASSWORD) {
       return json({ error: "Contraseña incorrecta" }, 401);
     }
+    if (!orderId) {
+      return json({ error: "Falta el pedido" }, 400);
+    }
 
     const admin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
-    const { data: orders, error } = await admin
+
+    const { data: existing } = await admin
       .from("orders")
-      .select(
-        "id, items, total, status, status_history, access_token, shipping_name, shipping_phone, shipping_address, shipping_city, shipping_province, shipping_postal_code, tracking_number, shipped_at, delivered_at, created_at, user_id"
-      )
-      .order("created_at", { ascending: false });
+      .select("status_history")
+      .eq("id", orderId)
+      .single<{ status_history: Array<{ status: string; label: string; at: string }> }>();
+
+    const updatedHistory = [
+      ...(existing?.status_history ?? []),
+      { status: "delivered", label: "Pedido entregado", at: new Date().toISOString() },
+    ];
+
+    const { error } = await admin
+      .from("orders")
+      .update({ delivered_at: new Date().toISOString(), status_history: updatedHistory })
+      .eq("id", orderId);
 
     if (error) throw error;
 
-    // Attach the buyer's email (not stored on the order row itself).
-    const ordersWithEmail = await Promise.all(
-      (orders ?? []).map(async (order) => {
-        const { data: userData } = await admin.auth.admin.getUserById(order.user_id);
-        return { ...order, buyer_email: userData?.user?.email ?? null };
-      })
-    );
-
-    return json({ orders: ordersWithEmail });
+    return json({ ok: true });
   } catch (err) {
     const message = err instanceof Error ? err.message : JSON.stringify(err);
-    console.error("list-orders error:", err);
+    console.error("mark-delivered error:", err);
     return json({ error: message }, 500);
   }
 });

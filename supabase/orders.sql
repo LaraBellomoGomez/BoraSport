@@ -13,9 +13,14 @@ create table if not exists public.orders (
   shipping_city text,
   shipping_province text,
   shipping_postal_code text,
-  -- Set later from /pedidos when the order is dispatched.
+  -- Set later from /pedidos when the order is dispatched / delivered.
   tracking_number text,
   shipped_at timestamptz,
+  delivered_at timestamptz,
+  -- Timestamped events: [{status, label, at}, ...] — shown in /pedidos.
+  status_history jsonb not null default '[]'::jsonb,
+  -- Unguessable token for the public /seguimiento?pedido=<token> page.
+  access_token text unique default replace(gen_random_uuid()::text, '-', ''),
   created_at timestamptz not null default now()
 );
 

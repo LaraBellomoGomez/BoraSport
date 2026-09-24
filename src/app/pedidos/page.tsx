@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { supabase } from "@/lib/supabase";
 import { formatARS } from "@/lib/format";
 import { findAnyProduct } from "@/lib/products";
+import { assetPath } from "@/lib/basePath";
 
 interface OrderItem {
   product_slug: string;
@@ -13,11 +14,19 @@ interface OrderItem {
   quantity: number;
 }
 
+interface HistoryEntry {
+  status: string;
+  label: string;
+  at: string;
+}
+
 interface Order {
   id: number;
   items: OrderItem[];
   total: number;
   status: "pending" | "paid" | "failed" | "cancelled";
+  status_history: HistoryEntry[];
+  access_token: string;
   shipping_name: string | null;
   shipping_phone: string | null;
   shipping_address: string | null;
@@ -26,6 +35,7 @@ interface Order {
   shipping_postal_code: string | null;
   tracking_number: string | null;
   shipped_at: string | null;
+  delivered_at: string | null;
   created_at: string;
   buyer_email: string | null;
 }
@@ -52,6 +62,11 @@ function itemLabel(item: OrderItem) {
   return `${item.quantity} x ${name}${item.size ? ` — Talle ${item.size}` : ""}`;
 }
 
+function trackingLinkFor(order: Order) {
+  if (typeof window === "undefined") return "";
+  return `${window.location.origin}${assetPath("/seguimiento")}?pedido=${order.access_token}`;
+}
+
 export default function PedidosPage() {
   const [password, setPassword] = useState("");
   const [authed, setAuthed] = useState(false);
@@ -62,6 +77,7 @@ export default function PedidosPage() {
   const [trackingInputs, setTrackingInputs] = useState<Record<number, string>>({});
   const [savingId, setSavingId] = useState<number | null>(null);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const [copiedId, setCopiedId] = useState<number | null>(null);
 
   useEffect(() => {
     const saved = sessionStorage.getItem(STORAGE_KEY);
@@ -107,15 +123,66 @@ export default function PedidosPage() {
       return;
     }
 
+    const now = new Date().toISOString();
     setOrders(
       (prev) =>
         prev?.map((o) =>
           o.id === orderId
-            ? { ...o, tracking_number: trackingNumber, shipped_at: new Date().toISOString() }
+            ? {
+                ...o,
+                tracking_number: trackingNumber,
+                shipped_at: now,
+                status_history: [
+                  ...o.status_history,
+                  { status: "shipped", label: "Pedido despachado", at: now },
+                ],
+              }
             : o
         ) ?? null
     );
     setSavingId(null);
+  }
+
+  async function handleMarkDelivered(orderId: number) {
+    setSavingId(orderId);
+    setSaveError(null);
+    const { data, error } = await supabase.functions.invoke("mark-delivered", {
+      body: { password, orderId },
+    });
+
+    if (error || data?.error) {
+      setSaveError(data?.error ?? "No se pudo marcar como entregado.");
+      setSavingId(null);
+      return;
+    }
+
+    const now = new Date().toISOString();
+    setOrders(
+      (prev) =>
+        prev?.map((o) =>
+          o.id === orderId
+            ? {
+                ...o,
+                delivered_at: now,
+                status_history: [
+                  ...o.status_history,
+                  { status: "delivered", label: "Pedido entregado", at: now },
+                ],
+              }
+            : o
+        ) ?? null
+    );
+    setSavingId(null);
+  }
+
+  async function handleCopyLink(order: Order) {
+    try {
+      await navigator.clipboard.writeText(trackingLinkFor(order));
+      setCopiedId(order.id);
+      setTimeout(() => setCopiedId(null), 1600);
+    } catch {
+      // clipboard API unavailable — nothing to fall back to safely
+    }
   }
 
   if (!authed) {
@@ -156,7 +223,9 @@ export default function PedidosPage() {
   }
 
   const visibleOrders =
-    orders?.filter((o) => (filter === "pendientes" ? o.status === "paid" && !o.tracking_number : true)) ?? [];
+    orders?.filter((o) =>
+      filter === "pendientes" ? o.status === "paid" && !o.delivered_at : true
+    ) ?? [];
 
   return (
     <>
@@ -174,7 +243,7 @@ export default function PedidosPage() {
               filter === "pendientes" ? "bg-bora-dark text-white" : "border border-bora-border text-bora-text-dark"
             }`}
           >
-            Pagados sin enviar
+            En curso
           </button>
           <button
             type="button"
@@ -199,6 +268,10 @@ export default function PedidosPage() {
                     <span style={{ color: STATUS_COLOR[order.status] }}>
                       {STATUS_LABEL[order.status]}
                     </span>
+                    {order.tracking_number && !order.delivered_at && (
+                      <span className="ml-2 text-[#25d366]">· Enviado</span>
+                    )}
+                    {order.delivered_at && <span className="ml-2 text-[#25d366]">· Entregado</span>}
                   </div>
                   <div className="text-xs text-bora-text-body">
                     {new Date(order.created_at).toLocaleString("es-AR")}
@@ -227,32 +300,70 @@ export default function PedidosPage() {
                   </div>
                 </div>
 
-                {order.status === "paid" &&
-                  (order.tracking_number ? (
-                    <p className="text-sm font-bold text-[#25d366]">
-                      Enviado — seguimiento: {order.tracking_number}
-                    </p>
-                  ) : (
-                    <div className="flex flex-wrap items-center gap-2">
-                      <input
-                        type="text"
-                        value={trackingInputs[order.id] ?? ""}
-                        onChange={(e) =>
-                          setTrackingInputs((prev) => ({ ...prev, [order.id]: e.target.value }))
-                        }
-                        placeholder="Número de seguimiento"
-                        className="rounded border border-bora-border px-3 py-2 text-sm text-bora-text-dark"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => handleSetTracking(order.id)}
-                        disabled={savingId === order.id || !trackingInputs[order.id]?.trim()}
-                        className="rounded bg-bora-dark px-4 py-2 text-xs font-bold tracking-wide text-white uppercase disabled:opacity-60"
-                      >
-                        {savingId === order.id ? "Guardando…" : "Marcar como enviado"}
-                      </button>
+                {order.status_history.length > 0 && (
+                  <div className="mb-3 border-t border-bora-border pt-3">
+                    <div className="mb-1 text-xs font-bold tracking-wide text-bora-text-body uppercase">
+                      Historial
                     </div>
-                  ))}
+                    <div className="flex flex-col gap-1">
+                      {order.status_history.map((entry, i) => (
+                        <div key={i} className="flex justify-between text-xs text-bora-text-body">
+                          <span>{entry.label}</span>
+                          <span>{new Date(entry.at).toLocaleString("es-AR")}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {order.status === "paid" && (
+                  <div className="flex flex-wrap items-center gap-2 border-t border-bora-border pt-3">
+                    {!order.tracking_number ? (
+                      <>
+                        <input
+                          type="text"
+                          value={trackingInputs[order.id] ?? ""}
+                          onChange={(e) =>
+                            setTrackingInputs((prev) => ({ ...prev, [order.id]: e.target.value }))
+                          }
+                          placeholder="Número de seguimiento"
+                          className="rounded border border-bora-border px-3 py-2 text-sm text-bora-text-dark"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleSetTracking(order.id)}
+                          disabled={savingId === order.id || !trackingInputs[order.id]?.trim()}
+                          className="rounded bg-bora-dark px-4 py-2 text-xs font-bold tracking-wide text-white uppercase disabled:opacity-60"
+                        >
+                          {savingId === order.id ? "Guardando…" : "Marcar como enviado"}
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <p className="text-sm font-bold text-[#25d366]">
+                          Seguimiento: {order.tracking_number}
+                        </p>
+                        <button
+                          type="button"
+                          onClick={() => handleCopyLink(order)}
+                          className="rounded border border-bora-border px-3 py-2 text-xs font-bold tracking-wide text-bora-text-dark uppercase"
+                        >
+                          {copiedId === order.id ? "¡Copiado!" : "Copiar link de seguimiento"}
+                        </button>
+                        {!order.delivered_at && (
+                          <button
+                            type="button"
+                            onClick={() => handleMarkDelivered(order.id)}
+                            disabled={savingId === order.id}
+                            className="rounded bg-bora-dark px-4 py-2 text-xs font-bold tracking-wide text-white uppercase disabled:opacity-60"
+                          >
+                            {savingId === order.id ? "Guardando…" : "Marcar como entregado"}
+                          </button>
+                        )}
+                      </>
+                    )}
+                  </div>
+                )}
               </div>
             ))}
           </div>
