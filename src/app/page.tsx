@@ -53,14 +53,14 @@ export default function HomePage() {
       <Header />
 
       <section className="w-full">
-        <div className="relative w-full overflow-hidden pt-[54%] md:pt-[50%]">
+        <div className="relative w-full overflow-hidden pt-[49%]">
           <Image
             src={assetPath("/assets/hero-final-sale-3prendas.jpg")}
             alt="Final Sale 20% OFF comprando 3 o más prendas — 10% OFF extra con transferencia — Últimas unidades"
             fill
             priority
             sizes="100vw"
-            className="object-cover"
+            className="object-cover object-[center_66%]"
           />
         </div>
       </section>
